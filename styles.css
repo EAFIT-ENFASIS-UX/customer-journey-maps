@@ -650,12 +650,12 @@ body.service-blueprint-page .divider-inner{
 }
 body.service-blueprint-page .div-line{ flex:1; height:1px; }
 
-body.service-blueprint-page .div-interaction  .divider-inner{ background:#e8f4ec; color:var(--light); }
-body.service-blueprint-page .div-interaction  .div-line{ background:var(--light); }
-body.service-blueprint-page .div-visibility   .divider-inner{ background:#051F19; color:white; }
-body.service-blueprint-page .div-visibility   .div-line{ background:white; opacity:.4; }
-body.service-blueprint-page .div-internal     .divider-inner{ background:#e2eee7; color:var(--mid); }
-body.service-blueprint-page .div-internal     .div-line{ background:var(--mid); opacity:.5; }
+body.service-blueprint-page .div-interaction .divider-inner{ background:#e8f4ec; color:var(--light); }
+body.service-blueprint-page .div-interaction .div-line{ background:var(--light); }
+body.service-blueprint-page .div-visibility .divider-inner{ background:#051F19; color:white; }
+body.service-blueprint-page .div-visibility .div-line{ background:white; opacity:.4; }
+body.service-blueprint-page .div-internal .divider-inner{ background:#e2eee7; color:var(--mid); }
+body.service-blueprint-page .div-internal .div-line{ background:var(--mid); opacity:.5; }
 
 /* ── ROW THEMES ── */
 
