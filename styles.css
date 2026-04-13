@@ -458,7 +458,7 @@ body.roadmap-page .bar{
   height:18px; border-radius:5px;
   display:flex; align-items:center; padding:0 6px;
   font-size:.6rem; font-weight:700; color:white;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  white-space:nowrap; overflow:visible; text-overflow:clip;
   box-shadow:0 1px 4px rgba(0,0,0,.15);
 }
 
