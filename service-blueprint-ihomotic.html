@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Blueprint — i-Homotic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:    #051F19;
+      --mid:     #07573B;
+      --light:   #0B5B46;
+      --lime:    #90AE2F;
+      --lime-bg: rgba(144,174,47,0.10);
+      --red:     #8b2222;
+      --bg:      #f4f8f4;
+      --white:   #ffffff;
+      --border:  rgba(11,91,70,0.13);
+      --col-w:   148px;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      padding: 2rem;
+      min-width: 1300px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--dark); border-radius: 16px;
+      padding: 1.4rem 2rem; margin-bottom: 1.8rem; color: white;
+    }
+    .h-title { font-family: 'Righteous', sans-serif; font-size: 1.7rem; }
+    .h-title span { color: var(--lime); }
+    .h-sub { font-size: 0.8rem; color: rgba(255,255,255,.45); margin-top: 0.3rem; font-weight:500; }
+    .h-logo { display:flex; align-items:center; gap:.6rem;
+      font-family:'Righteous',sans-serif; font-size:1rem; letter-spacing:1px; }
+    .logo-badge { width:34px; height:34px; background:var(--lime); border-radius:9px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1rem; font-weight:900; color:var(--dark); }
+
+    /* ── LEGEND BAND ── */
+    .legend-band {
+      display: flex; gap: 1.6rem; align-items: center;
+      background: var(--white); border-radius: 12px;
+      padding: .7rem 1.4rem; margin-bottom: 1.4rem;
+      box-shadow: 0 2px 10px rgba(5,31,25,.06);
+      flex-wrap: wrap;
+    }
+    .lg-item { display:flex; align-items:center; gap:.45rem; font-size:.72rem; font-weight:600; color:var(--dark); }
+    .lg-dot  { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
+    .lg-line { width:28px; height:3px; border-radius:2px; flex-shrink:0; }
+
+    /* ── MAIN TABLE ── */
+    .bp-wrap {
+      border-radius:16px; overflow:hidden;
+      box-shadow: 0 4px 28px rgba(5,31,25,.09);
+    }
+
+    table {
+      width: 100%; border-collapse: collapse;
+      table-layout: fixed; background: var(--white);
+    }
+
+    /* Stage columns */
+    col.c-label { width: var(--col-w); }
+    col.c-stage  { width: auto; }
+
+    /* ── THEAD ── */
+    thead th {
+      background: var(--dark); color: white;
+      padding: .9rem .85rem;
+      font-size: .73rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:1px;
+      border-right: 1px solid rgba(255,255,255,.07);
+      vertical-align: middle;
+    }
+    thead th:first-child {
+      background: #020f0b; width: var(--col-w);
+      border-right: 2px solid rgba(144,174,47,.3);
+    }
+    thead th:last-child { border-right: none; }
+    .s-icon { display:block; font-size:1.2rem; margin-bottom:.25rem; }
+    .s-num  {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:18px; height:18px; border-radius:50%;
+      background:var(--lime); color:var(--dark);
+      font-size:.65rem; font-weight:800; margin-right:.35rem;
+      vertical-align:middle; flex-shrink:0;
+    }
+    .s-channel {
+      display:inline-block; margin-top:.35rem;
+      font-size:.6rem; padding:.1rem .45rem; border-radius:8px; font-weight:700;
+      letter-spacing:.5px; text-transform:uppercase;
+    }
+    .ch-web   { background:rgba(144,174,47,.18); color:#4d6512; }
+    .ch-stand { background:rgba(7,87,59,.18); color:#07573b; }
+    .ch-both  { background:rgba(5,31,25,.12); color:#051f19; }
+
+    /* ── ROW LABELS ── */
+    .row-label {
+      padding: .9rem .65rem;
+      font-size: .68rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:.85px;
+      text-align:center; vertical-align:middle;
+      border-right: 2px solid rgba(144,174,47,.22);
+      line-height:1.45; width:var(--col-w);
+    }
+
+    /* ── DATA CELLS ── */
+    td:not(.row-label) {
+      padding: .8rem .85rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      font-size: .76rem; line-height:1.55;
+    }
+    td:last-child { border-right:none; }
+
+    /* ── DIVIDER ROWS ── */
+    .divider-row td {
+      padding: 0; border-right:none; border-bottom:none;
+    }
+    .divider-inner {
+      display:flex; align-items:center; gap:.7rem;
+      padding:.38rem 1rem;
+      font-size:.62rem; font-weight:800; letter-spacing:1.8px; text-transform:uppercase;
+    }
+    .div-line { flex:1; height:1px; }
+
+    .div-interaction  .divider-inner { background:#e8f4ec; color:var(--light); }
+    .div-interaction  .div-line      { background:var(--light); }
+    .div-visibility   .divider-inner { background:#051F19; color:white; }
+    .div-visibility   .div-line      { background:white; opacity:.4; }
+    .div-internal     .divider-inner { background:#e2eee7; color:var(--mid); }
+    .div-internal     .div-line      { background:var(--mid); opacity:.5; }
+
+    /* ── ROW THEMES ── */
+
+    /* Evidence */
+    tr.r-evidence .row-label { background:#1a3a2e; color:rgba(255,255,255,.8); }
+    tr.r-evidence td:not(.row-label) { background:#f0f7f3; }
+
+    /* Customer journey */
+    tr.r-journey .row-label { background:var(--mid); color:white; }
+    tr.r-journey td:not(.row-label) { background:#f7fdf8; color:#1a2e1a; }
+
+    /* Frontstage employees */
+    tr.r-front-emp .row-label { background:var(--light); color:white; }
+    tr.r-front-emp td:not(.row-label) { background:#f2faf5; }
+
+    /* Frontstage technology */
+    tr.r-front-tech .row-label { background:#2a5c40; color:rgba(255,255,255,.85); }
+    tr.r-front-tech td:not(.row-label) { background:#eef8f3; }
+
+    /* Backstage */
+    tr.r-back .row-label { background:#0d3524; color:rgba(255,255,255,.8); }
+    tr.r-back td:not(.row-label) { background:#e8f2ec; }
+
+    /* Support */
+    tr.r-support .row-label { background:#1b4a31; color:rgba(255,255,255,.7); }
+    tr.r-support td:not(.row-label) { background:#e4f0e8; }
+
+    /* ── CHIPS ── */
+    .chip {
+      display:inline-flex; align-items:center; gap:.22rem;
+      padding:.16rem .46rem; border-radius:20px;
+      font-size:.67rem; font-weight:600;
+      margin:.1rem .06rem; line-height:1.4;
+    }
+    .chip-g { background:rgba(11,91,70,.09); color:var(--light); border:1px solid rgba(11,91,70,.18); }
+    .chip-l { background:rgba(144,174,47,.12); color:#4d6512; border:1px solid rgba(144,174,47,.28); }
+    .chip-d { background:rgba(5,31,25,.07); color:var(--dark); border:1px solid rgba(5,31,25,.14); }
+    .chip-r { background:rgba(139,34,34,.08); color:#7a1a1a; border:1px solid rgba(139,34,34,.18); }
+    .chip-w { background:rgba(7,87,59,.14); color:#07573b; border:1px solid rgba(7,87,59,.22); }
+
+    /* ── LIST ITEMS ── */
+    .li { display:flex; gap:.3rem; margin-bottom:.32rem; font-size:.76rem; }
+    .li:last-child { margin-bottom:0; }
+    .li-dot { flex-shrink:0; margin-top:.18rem; }
+    .arrow  { color:var(--lime); font-weight:900; }
+    .gear   { color:var(--light); }
+    .bolt   { color:#c0392b; }
+    .check  { color:var(--lime); font-weight:900; }
+    .emp    { color:var(--mid); font-weight:900; }
+
+    .time-badge {
+      display:inline-block; padding:.12rem .5rem; border-radius:8px;
+      font-size:.65rem; font-weight:700;
+      background:rgba(144,174,47,.15); color:#4d6512;
+      border:1px solid rgba(144,174,47,.3); margin-bottom:.5rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top:1.2rem;
+      display:flex; justify-content:space-between; align-items:center;
+      font-size:.7rem; color:rgba(5,31,25,.35);
+    }
+    .ft-legend { display:flex; gap:1.2rem; flex-wrap:wrap; }
+    .ft-li { display:flex; gap:.4rem; align-items:center; }
+    .ft-dot { width:9px; height:9px; border-radius:50%; }
+
+    @media print {
+      body { padding:.4rem; min-width:unset; background:white; }
+      .bp-wrap { box-shadow:none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div>
+    <h1 class="h-title">Service Blueprint <span>— i-Homotic</span></h1>
+    <p class="h-sub">Sistema integrado: Sitio web interactivo + Stand Feria del Diseño · El Explorador Informado · EAFIT 2026</p>
+  </div>
+  <div class="h-logo">
+    <div class="logo-badge">i</div>
+    IHomotic
+  </div>
+</header>
+
+<!-- ── LEGEND ── -->
+<div class="legend-band">
+  <div class="lg-item"><div class="lg-dot" style="background:var(--lime);"></div>Canal digital — Sitio web</div>
+  <div class="lg-item"><div class="lg-dot" style="background:var(--mid);"></div>Canal físico — Stand</div>
+  <div class="lg-item"><div class="lg-dot" style="background:#3a3a3a;"></div>Ambos canales</div>
+  <div class="lg-item"><div class="lg-line" style="background:var(--light); border-top:2px dashed var(--light);"></div>Línea de interacción</div>
+  <div class="lg-item"><div class="lg-line" style="background:var(--dark);"></div>Línea de visibilidad</div>
+  <div class="lg-item"><div class="lg-line" style="background:var(--mid); border-top:2px dashed var(--mid);"></div>Línea de interacción interna</div>
+</div>
+
+<!-- ── TABLE ── -->
+<div class="bp-wrap">
+<table>
+  <colgroup>
+    <col class="c-label">
+    <col class="c-stage"><col class="c-stage"><col class="c-stage">
+    <col class="c-stage"><col class="c-stage"><col class="c-stage">
+  </colgroup>
+  <thead>
+    <tr>
+      <th></th>
+      <th>
+        <span class="s-icon">🔍</span>
+        <span class="s-num">1</span>Descubrimiento
+        <br><span class="s-channel ch-both">Web + Stand</span>
+      </th>
+      <th>
+        <span class="s-icon">🚪</span>
+        <span class="s-num">2</span>Llegada / Aterrizaje
+        <br><span class="s-channel ch-both">Web + Stand</span>
+      </th>
+      <th>
+        <span class="s-icon">🎮</span>
+        <span class="s-num">3</span>Exploración activa
+        <br><span class="s-channel ch-both">Web + Stand</span>
+      </th>
+      <th>
+        <span class="s-icon">⚖️</span>
+        <span class="s-num">4</span>Evaluación
+        <br><span class="s-channel ch-web">Sitio web</span>
+      </th>
+      <th>
+        <span class="s-icon">📬</span>
+        <span class="s-num">5</span>Contacto
+        <br><span class="s-channel ch-both">Web + Stand</span>
+      </th>
+      <th>
+        <span class="s-icon">🤝</span>
+        <span class="s-num">6</span>Seguimiento
+        <br><span class="s-channel ch-both">Web + Stand</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- ── EVIDENCE ── -->
+    <tr class="r-evidence">
+      <td class="row-label">Evidencia<br>física</td>
+      <td>
+        <span class="chip chip-d">Google Search</span>
+        <span class="chip chip-d">Instagram</span>
+        <span class="chip chip-d">Voz a voz</span>
+        <span class="chip chip-w">Señalética Plaza Mayor</span>
+      </td>
+      <td>
+        <span class="chip chip-g">Pantalla inicio sitio</span>
+        <span class="chip chip-w">Fachada del stand</span>
+        <span class="chip chip-w">Iluminación LED exterior</span>
+        <span class="chip chip-w">Visualizador 3D visible desde pasillo</span>
+      </td>
+      <td>
+        <span class="chip chip-g">Navbar + buscador</span>
+        <span class="chip chip-g">Sección /nosotros</span>
+        <span class="chip chip-w">Mobiliario residencial</span>
+        <span class="chip chip-w">Vidrio PDLC + cortinas motorizadas</span>
+        <span class="chip chip-w">Panel de switches reales</span>
+      </td>
+      <td>
+        <span class="chip chip-g">Visualizador 3D casa</span>
+        <span class="chip chip-g">Calculadora de ahorro</span>
+        <span class="chip chip-g">Configurador modular</span>
+        <span class="chip chip-g">Portafolio de proyectos</span>
+        <span class="chip chip-g">Fichas técnicas PDF</span>
+      </td>
+      <td>
+        <span class="chip chip-g">Formulario de contacto</span>
+        <span class="chip chip-l">WhatsApp Business</span>
+        <span class="chip chip-g">Correo HTML (n8n)</span>
+        <span class="chip chip-w">QR por zona del stand</span>
+        <span class="chip chip-w">Brochure impreso</span>
+      </td>
+      <td>
+        <span class="chip chip-g">Email de seguimiento</span>
+        <span class="chip chip-l">WhatsApp directo</span>
+        <span class="chip chip-d">Propuesta / cotización</span>
+        <span class="chip chip-d">Fichas técnicas enviadas</span>
+      </td>
+    </tr>
+
+    <!-- ── CUSTOMER JOURNEY ── -->
+    <tr class="r-journey">
+      <td class="row-label">Acciones<br>del cliente</td>
+      <td>
+        <div class="time-badge">↗ 5–15 min</div>
+        <div class="li"><span class="li-dot arrow">›</span>Busca "domótica Medellín" en Google</div>
+        <div class="li"><span class="li-dot arrow">›</span>Ve publicación en Instagram o referido de conocido</div>
+        <div class="li"><span class="li-dot arrow">›</span>Camina por Plaza Mayor y ve la pantalla del stand</div>
+      </td>
+      <td>
+        <div class="time-badge">↗ 2–5 min</div>
+        <div class="li"><span class="li-dot arrow">›</span><strong>Web:</strong> aterriza en el home, lee la propuesta de valor</div>
+        <div class="li"><span class="li-dot arrow">›</span><strong>Stand:</strong> sensor de movimiento activa bienvenida; entra al espacio</div>
+        <div class="li"><span class="li-dot arrow">›</span>Percibe el ambiente residencial y se orienta</div>
+      </td>
+      <td>
+        <div class="time-badge">↗ 10–25 min</div>
+        <div class="li"><span class="li-dot arrow">›</span><strong>Web:</strong> navega con buscador, visita /nosotros y /proyectos</div>
+        <div class="li"><span class="li-dot arrow">›</span><strong>Stand:</strong> le habla a Alexa y ve cómo cambia la escena</div>
+        <div class="li"><span class="li-dot arrow">›</span><strong>Stand:</strong> activa switches físicos del panel</div>
+        <div class="li"><span class="li-dot arrow">›</span><strong>Stand:</strong> observa cortinas, vidrio PDLC y cámara de seguridad</div>
+      </td>
+      <td>
+        <div class="time-badge">↗ 8–20 min</div>
+        <div class="li"><span class="li-dot arrow">›</span>Usa la calculadora de ahorro energético</div>
+        <div class="li"><span class="li-dot arrow">›</span>Explora el visualizador 3D de la casa</div>
+        <div class="li"><span class="li-dot arrow">›</span>Arma su sistema con el configurador modular</div>
+        <div class="li"><span class="li-dot arrow">›</span>Revisa proyectos reales y descarga fichas técnicas</div>
+      </td>
+      <td>
+        <div class="time-badge">↗ 3–8 min</div>
+        <div class="li"><span class="li-dot arrow">›</span><strong>Web:</strong> llena el formulario con datos e interés</div>
+        <div class="li"><span class="li-dot arrow">›</span><strong>Web:</strong> elige WhatsApp o correo; recibe confirmación automática</div>
+        <div class="li"><span class="li-dot arrow">›</span><strong>Stand:</strong> escanea QR de la zona de su interés</div>
+        <div class="li"><span class="li-dot arrow">›</span><strong>Stand:</strong> recibe brochure y fichas técnicas impresas</div>
+      </td>
+      <td>
+        <div class="time-badge">↗ 5–12 días</div>
+        <div class="li"><span class="li-dot arrow">›</span>Recibe propuesta y cotización del equipo</div>
+        <div class="li"><span class="li-dot arrow">›</span>Acepta el servicio y avanza gradualmente (I3)</div>
+        <div class="li"><span class="li-dot arrow">›</span>Refiere a amigos y familia</div>
+      </td>
+    </tr>
+
+    <!-- ── LÍNEA DE INTERACCIÓN ── -->
+    <tr class="divider-row div-interaction">
+      <td colspan="7">
+        <div class="divider-inner">
+          <span>⟶</span>
+          <span>Línea de interacción</span>
+          <span class="div-line"></span>
+          <span>Lo que el cliente ve y con lo que interacta directamente</span>
+        </div>
+      </td>
+    </tr>
+
+    <!-- ── FRONTSTAGE EMPLOYEES ── -->
+    <tr class="r-front-emp">
+      <td class="row-label">Frontstage<br>Acciones del<br>equipo</td>
+      <td>
+        <div class="li"><span class="li-dot emp">·</span>Mantiene SEO activo y perfil de Instagram actualizado</div>
+        <div class="li"><span class="li-dot emp">·</span>Asegura participación confirmada en Feria del Diseño</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot emp">·</span><strong>Stand:</strong> equipo presente da bienvenida no invasiva</div>
+        <div class="li"><span class="li-dot emp">·</span><strong>Stand:</strong> activa modo demo del espacio (escenas de luz)</div>
+        <div class="li"><span class="li-dot emp">·</span><strong>Web:</strong> hero actualizado con propuesta de valor clara</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot emp">·</span><strong>Stand:</strong> acompaña la demo de Alexa y el panel físico</div>
+        <div class="li"><span class="li-dot emp">·</span><strong>Stand:</strong> explica el hardware colombiano exhibido</div>
+        <div class="li"><span class="li-dot emp">·</span><strong>Web:</strong> contenido de /nosotros y portafolio siempre actualizado</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot emp">·</span>Portafolio de proyectos reales documentado y publicado</div>
+        <div class="li"><span class="li-dot emp">·</span>Fichas técnicas PDF disponibles para descarga</div>
+        <div class="li"><span class="li-dot emp">·</span>Datos de ahorro energético verificados y cargados</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot emp">·</span>Recibe leads del formulario web via n8n</div>
+        <div class="li"><span class="li-dot emp">·</span>Responde WhatsApp en horario definido</div>
+        <div class="li"><span class="li-dot emp">·</span><strong>Stand:</strong> entrega brochure y fichas; no presiona la venta</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot emp">·</span>Elabora propuesta personalizada y cotización</div>
+        <div class="li"><span class="li-dot emp">·</span>Envía por WhatsApp con materiales de respaldo</div>
+        <div class="li"><span class="li-dot emp">·</span>Realiza seguimiento sin ser invasivo</div>
+      </td>
+    </tr>
+
+    <!-- ── FRONTSTAGE TECH ── -->
+    <tr class="r-front-tech">
+      <td class="row-label">Frontstage<br>Tecnología<br>visible</td>
+      <td>
+        <span class="chip chip-g">Sitio ihomotic.vercel.app</span>
+        <span class="chip chip-l">Instagram / SEO</span>
+        <span class="chip chip-w">Pantalla gran formato (stand)</span>
+      </td>
+      <td>
+        <span class="chip chip-g">Hero + CTA sitio web</span>
+        <span class="chip chip-w">Sensor de movimiento (bienvenida)</span>
+        <span class="chip chip-w">Visualizador 3D pantalla stand</span>
+        <span class="chip chip-w">Iluminación LED ambiental</span>
+      </td>
+      <td>
+        <span class="chip chip-g">Buscador interno sitio</span>
+        <span class="chip chip-w">Alexa (control de voz)</span>
+        <span class="chip chip-w">Panel switches físicos</span>
+        <span class="chip chip-w">Vidrio PDLC inteligente</span>
+        <span class="chip chip-w">Cortinas motorizadas</span>
+        <span class="chip chip-w">Cámara seguridad demo</span>
+      </td>
+      <td>
+        <span class="chip chip-g">Visualizador 3D (React)</span>
+        <span class="chip chip-g">Calculadora de ahorro</span>
+        <span class="chip chip-g">Configurador modular</span>
+        <span class="chip chip-g">Quiz inicial</span>
+      </td>
+      <td>
+        <span class="chip chip-g">Formulario web (n8n)</span>
+        <span class="chip chip-l">WhatsApp Business</span>
+        <span class="chip chip-g">Email HTML automático</span>
+        <span class="chip chip-w">QR por zona (stand)</span>
+      </td>
+      <td>
+        <span class="chip chip-g">Email de seguimiento (n8n)</span>
+        <span class="chip chip-l">WhatsApp directo</span>
+        <span class="chip chip-g">Sitio como referencia permanente</span>
+      </td>
+    </tr>
+
+    <!-- ── LÍNEA DE VISIBILIDAD ── -->
+    <tr class="divider-row div-visibility">
+      <td colspan="7">
+        <div class="divider-inner">
+          <span>⟶</span>
+          <span>Línea de visibilidad</span>
+          <span class="div-line"></span>
+          <span>Lo siguiente no es visible para el cliente pero sostiene el servicio</span>
+        </div>
+      </td>
+    </tr>
+
+    <!-- ── BACKSTAGE ── -->
+    <tr class="r-back">
+      <td class="row-label">Backstage<br>Acciones<br>internas</td>
+      <td>
+        <div class="li"><span class="li-dot gear">⚙</span>Mantenimiento SEO y metadata del sitio</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Producción de contenido para Instagram (reels, portafolio)</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Logística de participación en Feria del Diseño</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot gear">⚙</span>Despliegue y actualización del sitio en Vercel</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Montaje y configuración del stand en Plaza Mayor</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Programación de escenas en Alexa y sensores</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot gear">⚙</span>Firmware propio en dispositivos del stand</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Librería propia de comunicación con asistentes de voz</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Configuración del router y red local del stand</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Cableado UTP de bajo voltaje (12–24V)</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot gear">⚙</span>Documentación fotográfica de proyectos reales</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Producción de fichas técnicas PDF por producto</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Validación de datos de ahorro energético (15–30%)</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Ensamblaje y programación del hardware colombiano</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot gear">⚙</span>Flujo n8n: formulario → notificación → email HTML</div>
+        <div class="li"><span class="li-dot gear">⚙</span>CRM manual de leads (WhatsApp + formulario)</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Configuración de webhook y variables del email</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot gear">⚙</span>Elaboración de propuesta técnica y presupuesto</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Coordinación de visita técnica al inmueble</div>
+        <div class="li"><span class="li-dot gear">⚙</span>Automatización de email de seguimiento (n8n)</div>
+      </td>
+    </tr>
+
+    <!-- ── LÍNEA DE INTERACCIÓN INTERNA ── -->
+    <tr class="divider-row div-internal">
+      <td colspan="7">
+        <div class="divider-inner">
+          <span>⟶</span>
+          <span>Línea de interacción interna</span>
+          <span class="div-line"></span>
+          <span>Procesos de soporte y terceros que habilitan el backstage</span>
+        </div>
+      </td>
+    </tr>
+
+    <!-- ── SUPPORT ── -->
+    <tr class="r-support">
+      <td class="row-label">Procesos<br>de soporte</td>
+      <td>
+        <div class="li"><span class="li-dot check">✓</span>Google Search Console / Analytics</div>
+        <div class="li"><span class="li-dot check">✓</span>Meta Business Suite (Instagram)</div>
+        <div class="li"><span class="li-dot check">✓</span>Organización Feria del Diseño – Plaza Mayor</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot check">✓</span>Vercel (hosting + CDN sitio)</div>
+        <div class="li"><span class="li-dot check">✓</span>React 19 + TypeScript (framework)</div>
+        <div class="li"><span class="li-dot check">✓</span>Logística de transporte y montaje stand</div>
+        <div class="li"><span class="li-dot check">✓</span>Proveedor de mobiliario residencial (stand)</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot check">✓</span>Amazon Alexa API (librería propia i-Homotic)</div>
+        <div class="li"><span class="li-dot check">✓</span>Proveedor hardware: microcontroladores importados</div>
+        <div class="li"><span class="li-dot check">✓</span>Proveedor vidrio PDLC + cortinas motorizadas</div>
+        <div class="li"><span class="li-dot check">✓</span>Red eléctrica bajo voltaje 12–24V</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot check">✓</span>Three.js (visualizador 3D)</div>
+        <div class="li"><span class="li-dot check">✓</span>API TRM en tiempo real (calculadora COP/USD)</div>
+        <div class="li"><span class="li-dot check">✓</span>Sistema de archivos PDF (fichas técnicas)</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot check">✓</span>n8n (automatización webhook → email)</div>
+        <div class="li"><span class="li-dot check">✓</span>WhatsApp Business API</div>
+        <div class="li"><span class="li-dot check">✓</span>Servidor SMTP (email HTML transaccional)</div>
+        <div class="li"><span class="li-dot check">✓</span>QR generator (links por zona)</div>
+      </td>
+      <td>
+        <div class="li"><span class="li-dot check">✓</span>n8n (email de seguimiento automatizado)</div>
+        <div class="li"><span class="li-dot check">✓</span>WhatsApp Business</div>
+        <div class="li"><span class="li-dot check">✓</span>Herramienta de presupuestación interna</div>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="ft-legend">
+    <div class="ft-li"><div class="ft-dot" style="background:var(--lime)"></div>Canal digital (sitio web)</div>
+    <div class="ft-li"><div class="ft-dot" style="background:var(--mid)"></div>Canal físico (stand)</div>
+    <div class="ft-li"><div class="ft-dot" style="background:#3a3a3a"></div>Ambos canales</div>
+    <div class="ft-li"><div class="ft-dot" style="background:var(--red)"></div>Punto de dolor</div>
+  </div>
+  <span>i-Homotic · Universidad EAFIT · Servicio y Experiencias Interactivas · 2026</span>
+</footer>
+
+</body>
+</html>

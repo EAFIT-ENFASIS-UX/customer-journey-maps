@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap — i-Homotic 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --dark:   #051F19;
+      --mid:    #07573B;
+      --light:  #0B5B46;
+      --lime:   #90AE2F;
+      --orange: #E8721A;
+      --bg:     #f4f8f4;
+      --white:  #ffffff;
+      --border: rgba(11,91,70,0.13);
+
+      /* Phase colors */
+      --p1: #5a7a3a;   /* Consolidación */
+      --p2: #2a6b52;   /* Validación */
+      --p3: #1a4a8a;   /* Presentaciones */
+      --p4: #7a4a1a;   /* Post-entrega cliente */
+
+      --p1-bg: rgba(90,122,58,0.10);
+      --p2-bg: rgba(42,107,82,0.10);
+      --p3-bg: rgba(26,74,138,0.10);
+      --p4-bg: rgba(122,74,26,0.10);
+
+      --row-h: 36px;
+      --label-w: 280px;
+      --meta-w: 420px;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      padding: 2rem;
+      min-width: 1400px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--dark); border-radius: 16px;
+      padding: 1.4rem 2rem; margin-bottom: 1.6rem; color: white;
+    }
+    .h-title { font-family: 'Righteous', sans-serif; font-size: 1.7rem; }
+    .h-title span { color: var(--lime); }
+    .h-sub { font-size: 0.8rem; color: rgba(255,255,255,.45); margin-top: 0.3rem; }
+    .h-logo { display:flex; align-items:center; gap:.6rem;
+      font-family:'Righteous',sans-serif; font-size:1rem; letter-spacing:1px; }
+    .logo-badge { width:34px; height:34px; background:var(--lime); border-radius:9px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1rem; font-weight:900; color:var(--dark); }
+
+    /* ── LEGEND ── */
+    .legend {
+      display:flex; gap:1.4rem; flex-wrap:wrap; align-items:center;
+      background:white; border-radius:12px; padding:.65rem 1.2rem;
+      margin-bottom:1.4rem; box-shadow:0 2px 10px rgba(5,31,25,.06);
+    }
+    .lg { display:flex; align-items:center; gap:.4rem; font-size:.72rem; font-weight:600; }
+    .lg-dot { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+
+    /* ── MAIN GRID ── */
+    .roadmap-wrap {
+      background: white; border-radius:16px; overflow:hidden;
+      box-shadow:0 4px 28px rgba(5,31,25,.09);
+    }
+
+    /* ── TOP BAR: month labels ── */
+    .month-bar {
+      display:flex;
+      border-bottom: 2px solid rgba(11,91,70,.15);
+    }
+    .month-bar .spacer {
+      width: calc(var(--label-w) + var(--meta-w));
+      flex-shrink:0;
+      background: #020f0b;
+      border-right: 2px solid rgba(144,174,47,.25);
+    }
+    .month-cell {
+      flex:1; text-align:center; padding:.55rem .3rem;
+      font-size:.72rem; font-weight:800; letter-spacing:1.5px; text-transform:uppercase;
+      color:white;
+      border-right:1px solid rgba(255,255,255,.07);
+    }
+    .month-cell:last-child { border-right:none; }
+    .month-apr  { background: var(--dark); flex:30; }
+    .month-may  { background: var(--mid);  flex:31; }
+    .month-jun  { background: #1a3a2e; flex:30; opacity:.85; }
+    .month-jul  { background: #142e24; flex:31; opacity:.7; }
+    .month-aug  { background: #0e2019; flex:31; opacity:.6; }
+
+    /* ── DAY BAR ── */
+    .day-bar {
+      display:flex;
+      border-bottom: 1px solid var(--border);
+      background:#f8fcf9;
+    }
+    .day-bar .spacer {
+      width: calc(var(--label-w) + var(--meta-w));
+      flex-shrink:0;
+      background:#020f0b;
+      border-right:2px solid rgba(144,174,47,.25);
+      padding:.3rem .6rem;
+      font-size:.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+      color:rgba(144,174,47,.7); display:flex; align-items:center;
+    }
+    .day-cell {
+      flex:1; text-align:center; padding:.28rem 0;
+      font-size:.58rem; color:rgba(5,31,25,.35); font-weight:600;
+      border-right:1px solid var(--border);
+      min-width:14px;
+    }
+    .day-cell.weekend { background:rgba(11,91,70,.04); color:rgba(5,31,25,.22); }
+    .day-cell.today   { background:rgba(144,174,47,.15); color:var(--mid); font-weight:800; }
+    .day-cell:last-child { border-right:none; }
+
+    /* ── PHASE HEADER ROWS ── */
+    .phase-header {
+      display:flex; align-items:stretch;
+      border-bottom:1px solid var(--border);
+    }
+    .phase-label {
+      width: calc(var(--label-w) + var(--meta-w));
+      flex-shrink:0;
+      display:flex; align-items:center; gap:.7rem;
+      padding:.65rem 1rem;
+      border-right:2px solid rgba(144,174,47,.2);
+    }
+    .phase-num {
+      width:26px; height:26px; border-radius:7px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:.8rem; font-weight:800; color:white; flex-shrink:0;
+    }
+    .phase-title { font-size:.82rem; font-weight:800; letter-spacing:.3px; line-height:1.3; }
+    .phase-sub   { font-size:.68rem; font-weight:500; opacity:.65; margin-top:.1rem; }
+    .phase-gantt {
+      flex:1; display:flex; align-items:center;
+      padding:.4rem 0;
+      position:relative;
+    }
+
+    /* ── TASK ROWS ── */
+    .task-row {
+      display:flex; align-items:stretch; min-height:var(--row-h);
+      border-bottom:1px solid var(--border);
+    }
+    .task-row:last-child { border-bottom:none; }
+
+    .task-label {
+      width:var(--label-w); flex-shrink:0;
+      padding:.5rem .8rem .5rem 2.2rem;
+      font-size:.74rem; line-height:1.45;
+      border-right:1px solid var(--border);
+      display:flex; align-items:center;
+    }
+
+    .task-meta {
+      width:var(--meta-w); flex-shrink:0;
+      display:grid; grid-template-columns: 72px 72px 64px 1fr;
+      border-right:2px solid rgba(144,174,47,.2);
+      font-size:.68rem;
+    }
+    .meta-cell {
+      padding:.45rem .5rem;
+      border-right:1px solid var(--border);
+      display:flex; align-items:center; font-weight:500;
+      color:rgba(5,31,25,.6);
+    }
+    .meta-cell:last-child { border-right:none; font-size:.65rem; color:rgba(5,31,25,.5); }
+    .meta-cell.resp { font-weight:600; color:var(--mid); }
+    .badge-done    { background:rgba(144,174,47,.18); color:#4d6512; }
+    .badge-inprog  { background:rgba(7,87,59,.13); color:var(--mid); }
+    .badge-pending { background:rgba(5,31,25,.07); color:rgba(5,31,25,.5); }
+    .badge-client  { background:rgba(232,114,26,.12); color:#9a4a08; }
+    .status-dot {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:20px; height:20px; border-radius:50%;
+      font-size:.6rem; font-weight:800;
+    }
+
+    .task-gantt {
+      flex:1; position:relative;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent calc(100% / 153 * 7 - 1px),
+        rgba(11,91,70,.05) calc(100% / 153 * 7 - 1px),
+        rgba(11,91,70,.05) calc(100% / 153 * 7)
+      );
+    }
+
+    /* Gantt bars */
+    .bar {
+      position:absolute; top:50%; transform:translateY(-50%);
+      height:18px; border-radius:5px;
+      display:flex; align-items:center; padding:0 6px;
+      font-size:.6rem; font-weight:700; color:white;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      box-shadow:0 1px 4px rgba(0,0,0,.15);
+    }
+
+    /* Milestone markers */
+    .milestone {
+      position:absolute; top:50%; transform:translate(-50%,-50%);
+      width:12px; height:12px; background:var(--lime);
+      border:2px solid var(--dark); border-radius:50%;
+      z-index:10;
+    }
+    .milestone-label {
+      position:absolute; top:50%; transform:translateY(-50%);
+      font-size:.6rem; font-weight:700; color:var(--dark);
+      white-space:nowrap; background:rgba(144,174,47,.9);
+      padding:.15rem .4rem; border-radius:4px;
+      z-index:10;
+    }
+
+    /* Today line */
+    .today-line {
+      position:absolute; top:0; bottom:0; width:2px;
+      background:rgba(232,114,26,.7);
+      z-index:20;
+    }
+    .today-label {
+      position:absolute; top:2px;
+      font-size:.58rem; font-weight:800; color:var(--orange);
+      background:white; padding:.1rem .3rem; border-radius:3px;
+      border:1px solid var(--orange); white-space:nowrap;
+      transform:translateX(-50%);
+    }
+
+    /* Post-entrega overlay */
+    .client-overlay {
+      position:absolute; top:0; bottom:0;
+      background:rgba(232,114,26,.04);
+      border-left:2px dashed rgba(232,114,26,.35);
+      z-index:1;
+    }
+
+    /* Section separator */
+    .section-sep {
+      display:flex; align-items:center; gap:0;
+    }
+    .sep-label {
+      width:calc(var(--label-w) + var(--meta-w));
+      flex-shrink:0; padding:.4rem 1rem;
+      font-size:.62rem; font-weight:800; letter-spacing:1.8px; text-transform:uppercase;
+      border-right:2px solid rgba(144,174,47,.2);
+    }
+    .sep-gantt { flex:1; }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top:1.2rem;
+      display:flex; justify-content:space-between; align-items:center;
+      font-size:.7rem; color:rgba(5,31,25,.35);
+      flex-wrap:wrap; gap:.5rem;
+    }
+    .ft-legend { display:flex; gap:1.2rem; flex-wrap:wrap; }
+    .ft-li { display:flex; gap:.4rem; align-items:center; }
+    .ft-dot { width:9px; height:9px; border-radius:50%; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="h-title">Roadmap <span>— i-Homotic 2026</span></h1>
+    <p class="h-sub">Fases académicas (abr–may) + Proyección post-entrega a cargo del cliente (jun–ago) · EAFIT 2026</p>
+  </div>
+  <div class="h-logo">
+    <div class="logo-badge">i</div>
+    IHomotic
+  </div>
+</header>
+
+<div class="legend">
+  <div class="lg"><div class="lg-dot" style="background:var(--p1)"></div>Fase 1 · Consolidación de prototipos</div>
+  <div class="lg"><div class="lg-dot" style="background:var(--p2)"></div>Fase 2 · Validación con usuarios</div>
+  <div class="lg"><div class="lg-dot" style="background:var(--p3)"></div>Fase 3 · Presentaciones finales</div>
+  <div class="lg"><div class="lg-dot" style="background:var(--p4)"></div>Fase 4 · Post-entrega (cliente)</div>
+  <div class="lg"><div class="lg-dot" style="background:var(--lime); border:2px solid var(--dark);"></div>Hito</div>
+  <div class="lg"><div class="lg-dot" style="background:var(--orange); border-radius:0;"></div>Hoy (13 abr)</div>
+  <div class="lg"><span style="font-size:.7rem;font-weight:700;color:rgba(5,31,25,.4)">✔ Completado &nbsp;◐ En curso &nbsp;○ Pendiente &nbsp;★ Cliente</span></div>
+</div>
+
+<!--
+  GANTT LOGIC
+  Timeline: Apr 13 – Aug 31 = 141 days total = 100%
+  Day 1 = Apr 13 (today)
+  Each day = 100/141 %
+
+  Key dates (day offset from Apr 13):
+  Apr 13 = day 0   (today)
+  Apr 14 = day 1
+  Apr 21 = day 8
+  Apr 25 = day 12
+  Apr 28 = day 15
+  May 1  = day 18
+  May 5  = day 22
+  May 7  = day 24
+  May 8  = day 25
+  May 12 = day 29
+  May 14 = day 31
+  May 16 = day 33
+  May 19 = day 36
+  May 21 = day 38
+  May 23 = day 40
+  May 26 = day 43
+  May 28 = day 45
+  May 30 = day 47
+  Jun 2  = day 50
+  Jun 9  = day 57
+  Jun 16 = day 64
+  Jun 30 = day 78
+  Jul 14 = day 92
+  Jul 31 = day 109
+  Aug 15 = day 124
+  Aug 31 = day 140
+
+  Total span = 141 days
+  left% = offset/141 * 100
+  width% = duration/141 * 100
+-->
+
+<div class="roadmap-wrap">
+
+  <!-- MONTH BAR -->
+  <div class="month-bar">
+    <div class="spacer"></div>
+    <div class="month-cell month-apr">Abril 2026</div>
+    <div class="month-cell month-may">Mayo 2026</div>
+    <div class="month-cell month-jun">Junio →</div>
+    <div class="month-cell month-jul">Julio →</div>
+    <div class="month-cell month-aug">Agosto →</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PHASE 1 · CONSOLIDACIÓN DE PROTOTIPOS
+  ══════════════════════════════════════════ -->
+  <div class="phase-header" style="background:var(--p1-bg); border-left:4px solid var(--p1);">
+    <div class="phase-label">
+      <div class="phase-num" style="background:var(--p1);">1</div>
+      <div>
+        <div class="phase-title" style="color:var(--p1);">Consolidación de Prototipos</div>
+        <div class="phase-sub">13 abr – 7 may · Equipo completo</div>
+      </div>
+    </div>
+    <div class="phase-gantt" style="background:var(--p1-bg); position:relative;">
+      <!-- Phase bar: day 0–24 → 0% to 17% -->
+      <div class="bar" style="left:0%; width:17%; background:var(--p1); opacity:.35;"></div>
+    </div>
+  </div>
+
+  <!-- META HEADER -->
+  <div class="task-row" style="background:#fafcfa; min-height:28px;">
+    <div class="task-label" style="font-size:.62rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:rgba(5,31,25,.35); padding-left:2.2rem;">Tarea</div>
+    <div class="task-meta" style="font-size:.62rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:rgba(5,31,25,.35);">
+      <div class="meta-cell">Inicio</div>
+      <div class="meta-cell">Fin</div>
+      <div class="meta-cell">Días</div>
+      <div class="meta-cell">Responsable</div>
+    </div>
+    <div class="task-gantt"></div>
+  </div>
+
+  <!-- TASKS P1 -->
+
+  <!-- Manual de marca — tokens, átomos, moléculas -->
+  <div class="task-row">
+    <div class="task-label">Manual de marca — tokens, componentes y guías de uso</div>
+    <div class="task-meta">
+      <div class="meta-cell">Abr 13</div>
+      <div class="meta-cell">Abr 25</div>
+      <div class="meta-cell">12</div>
+      <div class="meta-cell resp">Andrea · Sofía</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:0%; width:8.5%; background:var(--p1);">Manual marca</div>
+    </div>
+  </div>
+
+  <!-- Sitio web — interactivos (calculadora, quiz, configurador) -->
+  <div class="task-row">
+    <div class="task-label">Sitio web — calculadora, quiz y configurador modular</div>
+    <div class="task-meta">
+      <div class="meta-cell">Abr 13</div>
+      <div class="meta-cell">Abr 28</div>
+      <div class="meta-cell">15</div>
+      <div class="meta-cell resp">Ioav · Juan C.</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:0%; width:10.6%; background:var(--p1);">Interactivos</div>
+      <!-- Today line -->
+      <div class="today-line" style="left:0%;"></div>
+    </div>
+  </div>
+
+  <!-- Sitio web — visualizador 3D -->
+  <div class="task-row">
+    <div class="task-label">Sitio web — visualizador 3D de casa (Three.js)</div>
+    <div class="task-meta">
+      <div class="meta-cell">Abr 14</div>
+      <div class="meta-cell">May 2</div>
+      <div class="meta-cell">18</div>
+      <div class="meta-cell resp">Ioav · Laura R.</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:0.7%; width:12.8%; background:var(--p1);">Visualizador 3D</div>
+    </div>
+  </div>
+
+  <!-- Formulario + n8n -->
+  <div class="task-row">
+    <div class="task-label">Sitio web — formulario de contacto + automatización n8n</div>
+    <div class="task-meta">
+      <div class="meta-cell">Abr 21</div>
+      <div class="meta-cell">Abr 28</div>
+      <div class="meta-cell">7</div>
+      <div class="meta-cell resp">Ioav · Laura O.</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:5.7%; width:5%; background:var(--p1);">Formulario n8n</div>
+    </div>
+  </div>
+
+  <!-- Stand — concepto espacial y elevaciones -->
+  <div class="task-row">
+    <div class="task-label">Stand — concepto espacial, elevaciones y maqueta Canva</div>
+    <div class="task-meta">
+      <div class="meta-cell">Abr 14</div>
+      <div class="meta-cell">May 5</div>
+      <div class="meta-cell">21</div>
+      <div class="meta-cell resp">Andrea · Laura R.</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:0.7%; width:14.9%; background:var(--p1);">Stand · Diseño espacial</div>
+    </div>
+  </div>
+
+  <!-- Integración visual — manual aplicado al sitio y stand -->
+  <div class="task-row">
+    <div class="task-label">Integración visual — manual aplicado a sitio y stand</div>
+    <div class="task-meta">
+      <div class="meta-cell">Abr 25</div>
+      <div class="meta-cell">May 7</div>
+      <div class="meta-cell">12</div>
+      <div class="meta-cell resp">Todos</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:8.5%; width:8.5%; background:var(--p1);">Integración visual</div>
+    </div>
+  </div>
+
+  <!-- HITO 1 -->
+  <div class="task-row" style="background:rgba(144,174,47,.06); min-height:30px;">
+    <div class="task-label" style="font-weight:800; font-size:.73rem; color:var(--mid);">⬡ HITO 1 — Prototipos consolidados listos para validación</div>
+    <div class="task-meta">
+      <div class="meta-cell" style="font-weight:700;">May 7</div>
+      <div class="meta-cell">—</div>
+      <div class="meta-cell">—</div>
+      <div class="meta-cell resp">Equipo</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="milestone" style="left:17.0%;"></div>
+      <div class="milestone-label" style="left:17.7%;">Hito 1 · MPVs listos</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PHASE 2 · VALIDACIÓN CON USUARIOS
+  ══════════════════════════════════════════ -->
+  <div class="phase-header" style="background:var(--p2-bg); border-left:4px solid var(--p2);">
+    <div class="phase-label">
+      <div class="phase-num" style="background:var(--p2);">2</div>
+      <div>
+        <div class="phase-title" style="color:var(--p2);">Validación con Usuarios</div>
+        <div class="phase-sub">8 may – 19 may · Equipo + usuarios reales</div>
+      </div>
+    </div>
+    <div class="phase-gantt" style="background:var(--p2-bg);">
+      <div class="bar" style="left:17.7%; width:8.5%; background:var(--p2); opacity:.35;"></div>
+    </div>
+  </div>
+
+  <!-- Prueba de usabilidad sitio web -->
+  <div class="task-row">
+    <div class="task-label">Prueba de usabilidad del sitio web con 3–5 usuarios</div>
+    <div class="task-meta">
+      <div class="meta-cell">May 8</div>
+      <div class="meta-cell">May 12</div>
+      <div class="meta-cell">4</div>
+      <div class="meta-cell resp">Laura O. · Juan C.</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:17.7%; width:2.8%; background:var(--p2);">Test sitio</div>
+    </div>
+  </div>
+
+  <!-- Prueba de experiencia stand (simulación) -->
+  <div class="task-row">
+    <div class="task-label">Simulación de experiencia del stand con el equipo</div>
+    <div class="task-meta">
+      <div class="meta-cell">May 8</div>
+      <div class="meta-cell">May 9</div>
+      <div class="meta-cell">1</div>
+      <div class="meta-cell resp">Todos</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:17.7%; width:0.7%; background:var(--p2);">Sim.</div>
+    </div>
+  </div>
+
+  <!-- Registro y análisis de observaciones -->
+  <div class="task-row">
+    <div class="task-label">Registro de observaciones, pain points y oportunidades</div>
+    <div class="task-meta">
+      <div class="meta-cell">May 12</div>
+      <div class="meta-cell">May 14</div>
+      <div class="meta-cell">2</div>
+      <div class="meta-cell resp">Andrea · Sofía</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:20.6%; width:1.4%; background:var(--p2);">Análisis</div>
+    </div>
+  </div>
+
+  <!-- Ajustes finales post-validación -->
+  <div class="task-row">
+    <div class="task-label">Ajustes finales al prototipo según hallazgos de validación</div>
+    <div class="task-meta">
+      <div class="meta-cell">May 14</div>
+      <div class="meta-cell">May 19</div>
+      <div class="meta-cell">5</div>
+      <div class="meta-cell resp">Todos</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:22.0%; width:3.5%; background:var(--p2);">Ajustes</div>
+    </div>
+  </div>
+
+  <!-- HITO 2 -->
+  <div class="task-row" style="background:rgba(144,174,47,.06); min-height:30px;">
+    <div class="task-label" style="font-weight:800; font-size:.73rem; color:var(--mid);">⬡ HITO 2 — Validación completada · Prototipo final</div>
+    <div class="task-meta">
+      <div class="meta-cell" style="font-weight:700;">May 19</div>
+      <div class="meta-cell">—</div>
+      <div class="meta-cell">—</div>
+      <div class="meta-cell resp">Equipo</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="milestone" style="left:25.5%;"></div>
+      <div class="milestone-label" style="left:26.2%;">Hito 2 · Prototipo final</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PHASE 3 · PRESENTACIONES FINALES
+  ══════════════════════════════════════════ -->
+  <div class="phase-header" style="background:var(--p3-bg); border-left:4px solid var(--p3);">
+    <div class="phase-label">
+      <div class="phase-num" style="background:var(--p3);">3</div>
+      <div>
+        <div class="phase-title" style="color:var(--p3);">Presentaciones Finales</div>
+        <div class="phase-sub">20 may – 30 may · Cierre académico</div>
+      </div>
+    </div>
+    <div class="phase-gantt" style="background:var(--p3-bg);">
+      <div class="bar" style="left:25.5%; width:8.5%; background:var(--p3); opacity:.35;"></div>
+    </div>
+  </div>
+
+  <!-- Preparación de presentación final -->
+  <div class="task-row">
+    <div class="task-label">Preparación de presentación final (deck + demo en vivo)</div>
+    <div class="task-meta">
+      <div class="meta-cell">May 20</div>
+      <div class="meta-cell">May 23</div>
+      <div class="meta-cell">3</div>
+      <div class="meta-cell resp">Todos</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:25.5%; width:2.1%; background:var(--p3);">Deck final</div>
+    </div>
+  </div>
+
+  <!-- Presentación al cliente Carlos Lezcano -->
+  <div class="task-row">
+    <div class="task-label">Presentación al cliente — Carlos Lezcano (i-Homotic)</div>
+    <div class="task-meta">
+      <div class="meta-cell">May 24</div>
+      <div class="meta-cell">May 24</div>
+      <div class="meta-cell">1</div>
+      <div class="meta-cell resp">Todos</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:27.7%; width:0.7%; background:var(--p3);">Pres. cliente</div>
+    </div>
+  </div>
+
+  <!-- Presentación al jurado EAFIT -->
+  <div class="task-row">
+    <div class="task-label">Presentación al jurado académico — Universidad EAFIT</div>
+    <div class="task-meta">
+      <div class="meta-cell">May 26</div>
+      <div class="meta-cell">May 28</div>
+      <div class="meta-cell">2</div>
+      <div class="meta-cell resp">Todos</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:29.1%; width:1.4%; background:var(--p3);">Jurado EAFIT</div>
+    </div>
+  </div>
+
+  <!-- Entrega de documentación -->
+  <div class="task-row">
+    <div class="task-label">Entrega de documentación final al cliente (archivos, accesos)</div>
+    <div class="task-meta">
+      <div class="meta-cell">May 28</div>
+      <div class="meta-cell">May 30</div>
+      <div class="meta-cell">2</div>
+      <div class="meta-cell resp">Juan C. · Ioav</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="bar" style="left:30.5%; width:1.4%; background:var(--p3);">Docs</div>
+    </div>
+  </div>
+
+  <!-- HITO 3 -->
+  <div class="task-row" style="background:rgba(144,174,47,.06); min-height:30px;">
+    <div class="task-label" style="font-weight:800; font-size:.73rem; color:var(--mid);">⬡ HITO 3 — Cierre académico · Entrega completa al cliente</div>
+    <div class="task-meta">
+      <div class="meta-cell" style="font-weight:700;">May 30</div>
+      <div class="meta-cell">—</div>
+      <div class="meta-cell">—</div>
+      <div class="meta-cell resp">Equipo</div>
+    </div>
+    <div class="task-gantt" style="position:relative;">
+      <div class="milestone" style="left:31.9%;"></div>
+      <div class="milestone-label" style="left:32.6%;">Hito 3 · Cierre EAFIT</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SEPARADOR POST-ENTREGA
+  ══════════════════════════════════════════ -->
+  <div class="section-sep">
+    <div class="sep-label" style="background:#fdf4ec; color:#9a4a08; border-top:2px dashed rgba(232,114,26,.4); border-bottom:2px dashed rgba(232,114,26,.4);">
+      ★ A partir de aquí — a cargo del cliente · i-Homotic / Carlos Lezcano
+    </div>
+    <div class="sep-gantt" style="background:#fdf4ec; border-top:2px dashed rgba(232,114,26,.4); border-bottom:2px dashed rgba(232,114,26,.4); flex:1; height:100%;"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PHASE 4 · POST-ENTREGA (CLIENTE)
+  ══════════════════════════════════════════ -->
+  <div class="phase-header" style="background:var(--p4-bg); border-left:4px solid var(--p4);">
+    <div class="phase-label">
+      <div class="phase-num" style="background:var(--p4);">4</div>
+      <div>
+        <div class="phase-title" style="color:var(--p4);">Implementación y Lanzamiento</div>
+        <div class="phase-sub">Jun – Ago 2026 · Hipotético · A cargo de i-Homotic</div>
+      </div>
+    </div>
+    <div class="phase-gantt" style="background:var(--p4-bg);">
+      <div class="bar" style="left:34%; width:66%; background:var(--p4); opacity:.2;"></div>
+    </div>
+  </div>
+
+  <!-- Producción de contenido real (fotos, videos) -->
+  <div class="task-row" style="background:#fefaf6;">
+    <div class="task-label">Producción de contenido real — fotos y videos de proyectos</div>
+    <div class="task-meta">
+      <div class="meta-cell">Jun 2</div>
+      <div class="meta-cell">Jun 16</div>
+      <div class="meta-cell">14</div>
+      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    </div>
+    <div class="task-gantt" style="position:relative; background:#fefaf6;">
+      <div class="bar" style="left:35.5%; width:9.9%; background:var(--p4);">Contenido real</div>
+    </div>
+  </div>
+
+  <!-- Integración de contenido real al sitio -->
+  <div class="task-row" style="background:#fefaf6;">
+    <div class="task-label">Integración de contenido real al sitio web (reemplaza placeholders)</div>
+    <div class="task-meta">
+      <div class="meta-cell">Jun 16</div>
+      <div class="meta-cell">Jun 30</div>
+      <div class="meta-cell">14</div>
+      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente / Dev</div>
+    </div>
+    <div class="task-gantt" style="position:relative; background:#fefaf6;">
+      <div class="bar" style="left:45.4%; width:9.9%; background:var(--p4);">Contenido al sitio</div>
+    </div>
+  </div>
+
+  <!-- Configuración de dominio y lanzamiento público -->
+  <div class="task-row" style="background:#fefaf6;">
+    <div class="task-label">Configuración de dominio propio y lanzamiento público</div>
+    <div class="task-meta">
+      <div class="meta-cell">Jun 30</div>
+      <div class="meta-cell">Jul 7</div>
+      <div class="meta-cell">7</div>
+      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    </div>
+    <div class="task-gantt" style="position:relative; background:#fefaf6;">
+      <div class="bar" style="left:55.3%; width:5.0%; background:var(--p4);">Dominio + launch</div>
+    </div>
+  </div>
+
+  <!-- Estrategia Instagram / SEO -->
+  <div class="task-row" style="background:#fefaf6;">
+    <div class="task-label">Activación de estrategia Instagram + SEO orgánico</div>
+    <div class="task-meta">
+      <div class="meta-cell">Jul 1</div>
+      <div class="meta-cell">Jul 31</div>
+      <div class="meta-cell">30</div>
+      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    </div>
+    <div class="task-gantt" style="position:relative; background:#fefaf6;">
+      <div class="bar" style="left:56.0%; width:21.3%; background:var(--p4);">Instagram + SEO</div>
+    </div>
+  </div>
+
+  <!-- Construcción y prueba del stand real -->
+  <div class="task-row" style="background:#fefaf6;">
+    <div class="task-label">Construcción y montaje del stand real (según diseño entregado)</div>
+    <div class="task-meta">
+      <div class="meta-cell">Jul 14</div>
+      <div class="meta-cell">Ago 15</div>
+      <div class="meta-cell">32</div>
+      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    </div>
+    <div class="task-gantt" style="position:relative; background:#fefaf6;">
+      <div class="bar" style="left:65.2%; width:22.7%; background:var(--p4);">Stand físico</div>
+    </div>
+  </div>
+
+  <!-- Negociaciones con constructoras -->
+  <div class="task-row" style="background:#fefaf6;">
+    <div class="task-label">Apertura de negociaciones con constructoras (material digital listo)</div>
+    <div class="task-meta">
+      <div class="meta-cell">Jul 7</div>
+      <div class="meta-cell">Ago 31</div>
+      <div class="meta-cell">55</div>
+      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    </div>
+    <div class="task-gantt" style="position:relative; background:#fefaf6;">
+      <div class="bar" style="left:60.3%; width:39.0%; background:var(--p4); opacity:.7;">Prospección constructoras</div>
+    </div>
+  </div>
+
+  <!-- Participación en Feria del Diseño -->
+  <div class="task-row" style="background:#fefaf6;">
+    <div class="task-label">Participación en Feria del Diseño — Plaza Mayor Medellín</div>
+    <div class="task-meta">
+      <div class="meta-cell">Ago 15</div>
+      <div class="meta-cell">Ago 17</div>
+      <div class="meta-cell">3</div>
+      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    </div>
+    <div class="task-gantt" style="position:relative; background:#fefaf6;">
+      <div class="bar" style="left:87.9%; width:2.1%; background:var(--orange);">🎪 Feria</div>
+    </div>
+  </div>
+
+  <!-- HITO 4 -->
+  <div class="task-row" style="background:#fdf4ec; min-height:30px;">
+    <div class="task-label" style="font-weight:800; font-size:.73rem; color:#9a4a08;">⬡ HITO 4 — Sitio live + Stand físico + Primera Feria del Diseño</div>
+    <div class="task-meta">
+      <div class="meta-cell" style="font-weight:700;">Ago 17</div>
+      <div class="meta-cell">—</div>
+      <div class="meta-cell">—</div>
+      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    </div>
+    <div class="task-gantt" style="position:relative; background:#fdf4ec;">
+      <div class="milestone" style="left:90.0%; background:var(--orange); border-color:#9a4a08;"></div>
+      <div class="milestone-label" style="left:85.5%; background:rgba(232,114,26,.85);">Hito 4 · Lanzamiento total</div>
+    </div>
+  </div>
+
+</div><!-- /roadmap-wrap -->
+
+<footer>
+  <div class="ft-legend">
+    <div class="ft-li"><div class="ft-dot" style="background:var(--p1)"></div>Fase 1 · Consolidación</div>
+    <div class="ft-li"><div class="ft-dot" style="background:var(--p2)"></div>Fase 2 · Validación</div>
+    <div class="ft-li"><div class="ft-dot" style="background:var(--p3)"></div>Fase 3 · Presentaciones</div>
+    <div class="ft-li"><div class="ft-dot" style="background:var(--p4)"></div>Fase 4 · Post-entrega cliente</div>
+    <div class="ft-li"><div class="ft-dot" style="background:var(--lime); border:2px solid var(--dark)"></div>Hito</div>
+  </div>
+  <span>i-Homotic · Roadmap tentativo · Universidad EAFIT · 2026</span>
+</footer>
+
+</body>
+</html>
