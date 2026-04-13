@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Journey Map – IHomotic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:   #051F19;
+      --mid:    #07573B;
+      --light:  #0B5B46;
+      --lime:   #90AE2F;
+      --bg:     #f4f8f4;
+      --white:  #ffffff;
+      --border: rgba(11, 91, 70, 0.14);
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      padding: 2rem;
+      min-width: 1080px;
+    }
+
+    /* ────────────────── Header ────────────────── */
+    .cjm-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.8rem;
+      padding: 1.4rem 2rem;
+      background: var(--dark);
+      border-radius: 16px;
+      color: white;
+    }
+
+    .cjm-title { font-family: 'Righteous', sans-serif; font-size: 1.75rem; letter-spacing: 0.3px; }
+    .cjm-title span { color: var(--lime); }
+    .cjm-subtitle { margin-top: 0.3rem; font-size: 0.82rem; color: rgba(255,255,255,0.5); font-weight: 500; }
+
+    .cjm-logo {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-family: 'Righteous', sans-serif; font-size: 1rem; letter-spacing: 1px; color: white;
+    }
+    .logo-badge {
+      width: 34px; height: 34px; background: var(--lime); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 900; color: var(--dark);
+    }
+
+    /* ────────────────── Table wrapper ────────────────── */
+    .table-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 28px rgba(5, 31, 25, 0.09);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      background: var(--white);
+    }
+
+    /* ────────────────── Stage header row ────────────────── */
+    thead th {
+      background: var(--dark);
+      color: white;
+      padding: 1rem 1rem 0.9rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      vertical-align: middle;
+    }
+    thead th:first-child { width: 130px; background: #020f0b; border-right: 2px solid rgba(144,174,47,0.3); }
+    thead th:last-child  { border-right: none; }
+
+    .stage-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--lime); color: var(--dark);
+      font-size: 0.7rem; font-weight: 800;
+      margin-right: 0.4rem; vertical-align: middle; flex-shrink: 0;
+    }
+
+    .stage-icon { display: block; font-size: 1.3rem; margin-bottom: 0.3rem; }
+
+    /* ────────────────── Row label ────────────────── */
+    .row-label {
+      padding: 1rem 0.7rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      text-align: center;
+      vertical-align: middle;
+      border-right: 2px solid rgba(144,174,47,0.25);
+      line-height: 1.45;
+      width: 130px;
+    }
+
+    /* ────────────────── Data cells ────────────────── */
+    td:not(.row-label) {
+      padding: 0.9rem 0.9rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      font-size: 0.79rem;
+      line-height: 1.55;
+    }
+    td:last-child { border-right: none; }
+
+    /* ────────────────── Per-row themes ────────────────── */
+
+    /* Acciones */
+    tr.r-acciones .row-label { background: var(--mid); color: white; border-bottom: 1px solid rgba(144,174,47,0.2); }
+    tr.r-acciones td:not(.row-label) { background: #f7fdf8; color: #1a2e1a; }
+
+    /* Touchpoints */
+    tr.r-touch .row-label { background: var(--light); color: white; border-bottom: 1px solid rgba(144,174,47,0.2); }
+    tr.r-touch td:not(.row-label) { background: #f4fbf6; }
+
+    /* Emotions */
+    tr.r-emotions .row-label { background: var(--dark); color: var(--lime); font-size: 0.7rem; }
+    tr.r-emotions .emotion-cell { background: linear-gradient(170deg, #edf7f0 0%, #e4f0e8 100%); padding: 4px 0 2px; }
+
+    /* Pain */
+    tr.r-pain .row-label { background: #8b2222; color: white; border-bottom: 1px solid rgba(220,80,80,0.15); }
+    tr.r-pain td:not(.row-label) { background: #fff9f9; }
+
+    /* Solutions */
+    tr.r-sol .row-label { background: var(--lime); color: var(--dark); border-bottom: 1px solid rgba(11,91,70,0.12); }
+    tr.r-sol td:not(.row-label) { background: #f8fce6; }
+
+    /* ────────────────── Chips (touchpoints) ────────────────── */
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      padding: 0.18rem 0.5rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin: 0.12rem 0.08rem;
+      line-height: 1.4;
+    }
+    .chip-g { background: rgba(11,91,70,0.09); color: var(--light); border: 1px solid rgba(11,91,70,0.18); }
+    .chip-l { background: rgba(144,174,47,0.12); color: #4d6512; border: 1px solid rgba(144,174,47,0.28); }
+    .chip-d { background: rgba(5,31,25,0.07); color: var(--dark); border: 1px solid rgba(5,31,25,0.14); }
+
+    /* ────────────────── Action items ────────────────── */
+    .a-item { display: flex; gap: 0.35rem; margin-bottom: 0.38rem; font-size: 0.78rem; color: #1a2e1a; }
+    .a-item:last-child { margin-bottom: 0; }
+    .a-arrow { color: var(--lime); font-weight: 800; flex-shrink: 0; margin-top: 0.05rem; }
+
+    /* ────────────────── Pain items ────────────────── */
+    .p-item { display: flex; gap: 0.35rem; margin-bottom: 0.38rem; font-size: 0.78rem; color: #6a1515; }
+    .p-item:last-child { margin-bottom: 0; }
+    .p-dot { color: #c0392b; font-size: 0.65rem; flex-shrink: 0; margin-top: 0.28rem; }
+    .p-insight {
+      display: inline-block; margin-top: 0.3rem;
+      font-size: 0.66rem; font-weight: 700; color: #8b2222;
+      background: rgba(139,34,34,0.08); padding: 0.1rem 0.4rem; border-radius: 10px;
+    }
+
+    /* ────────────────── Solution items ────────────────── */
+    .s-item { display: flex; gap: 0.35rem; margin-bottom: 0.38rem; font-size: 0.78rem; color: #3a4f0a; }
+    .s-item:last-child { margin-bottom: 0; }
+    .s-check { color: var(--lime); font-weight: 900; flex-shrink: 0; }
+
+    /* ────────────────── Footer ────────────────── */
+    .cjm-footer {
+      margin-top: 1.2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.72rem; color: rgba(5,31,25,0.38);
+    }
+    .legend {
+      display: flex; gap: 1.2rem; align-items: center;
+    }
+    .legend-item { display: flex; gap: 0.4rem; align-items: center; font-size: 0.7rem; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* ────────────────── Print ────────────────── */
+    @media print {
+      body { padding: 0.4rem; min-width: unset; background: white; }
+      .table-wrap { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="cjm-header">
+    <div>
+      <h1 class="cjm-title">Customer Journey Map <span>— IHomotic</span></h1>
+      <p class="cjm-subtitle">Arquetipo: El Explorador Informado · Flujo de experiencia en ihomotic.vercel.app · EAFIT 2026</p>
+    </div>
+    <div class="cjm-logo">
+      <div class="logo-badge">i</div>
+      IHomotic
+    </div>
+  </header>
+
+  <!-- ── Table ── -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>
+            <span class="stage-icon">🔍</span>
+            <span class="stage-num">1</span>Descubrimiento
+          </th>
+          <th>
+            <span class="stage-icon">🗺️</span>
+            <span class="stage-num">2</span>Exploración
+          </th>
+          <th>
+            <span class="stage-icon">⚖️</span>
+            <span class="stage-num">3</span>Evaluación
+          </th>
+          <th>
+            <span class="stage-icon">📬</span>
+            <span class="stage-num">4</span>Contacto
+          </th>
+          <th>
+            <span class="stage-icon">🤝</span>
+            <span class="stage-num">5</span>Fidelización
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ── Acciones del usuario ── -->
+        <tr class="r-acciones">
+          <td class="row-label">Acciones<br>del usuario</td>
+          <td>
+            <div class="a-item"><span class="a-arrow">›</span>Busca "domótica Medellín" en Google</div>
+            <div class="a-item"><span class="a-arrow">›</span>Ve publicación o reseña en redes sociales</div>
+            <div class="a-item"><span class="a-arrow">›</span>Llega referido por conocido y valida online</div>
+          </td>
+          <td>
+            <div class="a-item"><span class="a-arrow">›</span>Aterriza en el Home y lee la propuesta de valor</div>
+            <div class="a-item"><span class="a-arrow">›</span>Navega con la barra de búsqueda rápida</div>
+            <div class="a-item"><span class="a-arrow">›</span>Visita Nosotros para conocer al equipo</div>
+          </td>
+          <td>
+            <div class="a-item"><span class="a-arrow">›</span>Usa la calculadora para estimar costos</div>
+            <div class="a-item"><span class="a-arrow">›</span>Explora el Mapa 3D interactivo</div>
+            <div class="a-item"><span class="a-arrow">›</span>Revisa proyectos y casos reales</div>
+            <div class="a-item"><span class="a-arrow">›</span>Simula el ahorro energético mensual</div>
+          </td>
+          <td>
+            <div class="a-item"><span class="a-arrow">›</span>Llena el formulario con sus datos e interés</div>
+            <div class="a-item"><span class="a-arrow">›</span>Elige contactar por WhatsApp o por Email</div>
+            <div class="a-item"><span class="a-arrow">›</span>Recibe confirmación automática por correo</div>
+          </td>
+          <td>
+            <div class="a-item"><span class="a-arrow">›</span>Recibe propuesta y cotización del equipo</div>
+            <div class="a-item"><span class="a-arrow">›</span>Acepta el servicio y avanza gradualmente</div>
+            <div class="a-item"><span class="a-arrow">›</span>Refiere a amigos y familia</div>
+          </td>
+        </tr>
+
+        <!-- ── Touchpoints ── -->
+        <tr class="r-touch">
+          <td class="row-label">Touch&shy;points</td>
+          <td>
+            <span class="chip chip-d">Google Search</span>
+            <span class="chip chip-d">Instagram</span>
+            <span class="chip chip-d">ChatGPT / Reviews</span>
+            <span class="chip chip-g">Voz a voz</span>
+          </td>
+          <td>
+            <span class="chip chip-g">Home page</span>
+            <span class="chip chip-g">Navbar</span>
+            <span class="chip chip-g">Buscador rápido</span>
+            <span class="chip chip-g">/nosotros</span>
+          </td>
+          <td>
+            <span class="chip chip-g">Calculadora + TRM</span>
+            <span class="chip chip-g">Mapa 3D</span>
+            <span class="chip chip-g">/proyectos</span>
+            <span class="chip chip-l">Simulador ahorro</span>
+          </td>
+          <td>
+            <span class="chip chip-g">/contacto</span>
+            <span class="chip chip-l">WhatsApp Business</span>
+            <span class="chip chip-l">Correo HTML (n8n)</span>
+          </td>
+          <td>
+            <span class="chip chip-l">Email seguimiento</span>
+            <span class="chip chip-g">WhatsApp directo</span>
+            <span class="chip chip-d">Referidos</span>
+          </td>
+        </tr>
+
+        <!-- ── Experiencia emocional ── -->
+        <tr class="r-emotions">
+          <td class="row-label">Experiencia<br>emocional</td>
+          <td colspan="5" class="emotion-cell">
+            <!--
+              5 puntos en x = 10%, 30%, 50%, 70%, 90% del ancho (viewBox 1000)
+              Emociones (y invertido — menor y = más arriba = más positivo):
+                Descubrimiento → Curioso       y = 118
+                Exploración    → Interesado    y = 92
+                Evaluación     → Impresionado  y = 38
+                Contacto       → Confiado      y = 50
+                Fidelización   → Fidelizado    y = 18
+            -->
+            <svg viewBox="0 0 1000 168" xmlns="http://www.w3.org/2000/svg"
+                 style="width:100%;display:block;" aria-label="Curva de emoción del usuario">
+
+              <!-- Líneas de cuadrícula -->
+              <line x1="0" y1="28"  x2="1000" y2="28"  stroke="rgba(11,91,70,0.07)" stroke-width="1"/>
+              <line x1="0" y1="58"  x2="1000" y2="58"  stroke="rgba(11,91,70,0.07)" stroke-width="1"/>
+              <line x1="0" y1="88"  x2="1000" y2="88"  stroke="rgba(11,91,70,0.07)" stroke-width="1"/>
+              <line x1="0" y1="118" x2="1000" y2="118" stroke="rgba(11,91,70,0.07)" stroke-width="1"/>
+
+              <!-- Etiquetas eje y -->
+              <text x="8" y="26"  font-size="9" fill="rgba(5,31,25,0.3)" font-family="Montserrat,sans-serif">😄</text>
+              <text x="8" y="90"  font-size="9" fill="rgba(5,31,25,0.3)" font-family="Montserrat,sans-serif">😐</text>
+              <text x="8" y="120" font-size="9" fill="rgba(5,31,25,0.3)" font-family="Montserrat,sans-serif">😟</text>
+
+              <!-- Área bajo la curva -->
+              <path d="M 100,118 C 190,118 210,92 300,92 C 390,92 410,38 500,38 C 590,38 610,50 700,50 C 790,50 810,18 900,18 L 900,148 L 100,148 Z"
+                    fill="rgba(144,174,47,0.10)"/>
+
+              <!-- Curva principal -->
+              <path d="M 100,118 C 190,118 210,92 300,92 C 390,92 410,38 500,38 C 590,38 610,50 700,50 C 790,50 810,18 900,18"
+                    fill="none" stroke="#90AE2F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Círculos -->
+              <circle cx="100" cy="118" r="19" fill="#07573B" stroke="#90AE2F" stroke-width="2.5"/>
+              <circle cx="300" cy="92"  r="19" fill="#07573B" stroke="#90AE2F" stroke-width="2.5"/>
+              <circle cx="500" cy="38"  r="19" fill="#051F19" stroke="#90AE2F" stroke-width="2.5"/>
+              <circle cx="700" cy="50"  r="19" fill="#051F19" stroke="#90AE2F" stroke-width="2.5"/>
+              <circle cx="900" cy="18"  r="19" fill="#90AE2F" stroke="white"   stroke-width="2.5"/>
+
+              <!-- Emojis en los círculos -->
+              <text x="100" y="124" text-anchor="middle" font-size="15" dominant-baseline="middle">😐</text>
+              <text x="300" y="98"  text-anchor="middle" font-size="15" dominant-baseline="middle">🙂</text>
+              <text x="500" y="44"  text-anchor="middle" font-size="15" dominant-baseline="middle">😲</text>
+              <text x="700" y="56"  text-anchor="middle" font-size="15" dominant-baseline="middle">😊</text>
+              <text x="900" y="24"  text-anchor="middle" font-size="15" dominant-baseline="middle">😄</text>
+
+              <!-- Etiquetas de emoción bajo cada círculo -->
+              <text x="100" y="147" text-anchor="middle" font-size="10" fill="#07573B" font-family="Montserrat,sans-serif" font-weight="700">Curioso</text>
+              <text x="300" y="118" text-anchor="middle" font-size="10" fill="#07573B" font-family="Montserrat,sans-serif" font-weight="700">Interesado</text>
+              <text x="500" y="64"  text-anchor="middle" font-size="10" fill="#051F19" font-family="Montserrat,sans-serif" font-weight="700">Impresionado</text>
+              <text x="700" y="76"  text-anchor="middle" font-size="10" fill="#051F19" font-family="Montserrat,sans-serif" font-weight="700">Confiado</text>
+              <text x="900" y="44"  text-anchor="middle" font-size="10" fill="#4d6512" font-family="Montserrat,sans-serif" font-weight="700">Fidelizado</text>
+            </svg>
+          </td>
+        </tr>
+
+        <!-- ── Puntos de dolor ── -->
+        <tr class="r-pain">
+          <td class="row-label">Puntos<br>de dolor</td>
+          <td>
+            <div class="p-item"><span class="p-dot">▪</span>No conoce la empresa ni sabe qué es domótica</div>
+            <div class="p-item"><span class="p-dot">▪</span>Busca reseñas y evidencia; sin ellas descarta inmediatamente</div>
+            <span class="p-insight">I1 · La confianza se googlea</span>
+          </td>
+          <td>
+            <div class="p-item"><span class="p-dot">▪</span>Se siente abrumado por la oferta del mercado</div>
+            <div class="p-item"><span class="p-dot">▪</span>Nadie le explica cómo funciona la domótica</div>
+            <span class="p-insight">I4 · Pedagogía como diferencial</span>
+          </td>
+          <td>
+            <div class="p-item"><span class="p-dot">▪</span>No sabe si el presupuesto alcanza</div>
+            <div class="p-item"><span class="p-dot">▪</span>Sin casos reales, no termina de decidir</div>
+            <span class="p-insight">I2 · Parálisis por falta de evidencia</span>
+          </td>
+          <td>
+            <div class="p-item"><span class="p-dot">▪</span>Teme tener que repetir su contexto completo</div>
+            <div class="p-item"><span class="p-dot">▪</span>Incertidumbre sobre el tiempo de respuesta</div>
+            <span class="p-insight">I3 · Expansión gradual</span>
+          </td>
+          <td>
+            <div class="p-item"><span class="p-dot">▪</span>Falta de comunicación post-contacto</div>
+            <div class="p-item"><span class="p-dot">▪</span>No sabe si fue atendido correctamente</div>
+            <span class="p-insight">I5 · Ver para creer</span>
+          </td>
+        </tr>
+
+        <!-- ── Soluciones del sitio ── -->
+        <tr class="r-sol">
+          <td class="row-label">Soluciones<br>del sitio</td>
+          <td>
+            <div class="s-item"><span class="s-check">✓</span>SEO + buscador interno con navegación rápida</div>
+            <div class="s-item"><span class="s-check">✓</span>Sección de proyectos reales como portafolio</div>
+          </td>
+          <td>
+            <div class="s-item"><span class="s-check">✓</span>Hero con propuesta de valor clara y CTA</div>
+            <div class="s-item"><span class="s-check">✓</span>Buscador que indexa páginas y servicios</div>
+            <div class="s-item"><span class="s-check">✓</span>Mapa 3D interactivo como demo pedagógico</div>
+          </td>
+          <td>
+            <div class="s-item"><span class="s-check">✓</span>Calculadora con TRM en tiempo real (COP/USD)</div>
+            <div class="s-item"><span class="s-check">✓</span>Simulador de ahorro energético con sliders</div>
+            <div class="s-item"><span class="s-check">✓</span>Galería de proyectos terminados</div>
+          </td>
+          <td>
+            <div class="s-item"><span class="s-check">✓</span>Mensaje WhatsApp dinámico (datos precargados)</div>
+            <div class="s-item"><span class="s-check">✓</span>Confirmación automática por correo HTML (n8n)</div>
+            <div class="s-item"><span class="s-check">✓</span>Formulario guiado con selección de servicio</div>
+          </td>
+          <td>
+            <div class="s-item"><span class="s-check">✓</span>Correo HTML con identidad de marca profesional</div>
+            <div class="s-item"><span class="s-check">✓</span>Automatización de seguimiento vía n8n</div>
+            <div class="s-item"><span class="s-check">✓</span>Sitio siempre accesible como referencia</div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer class="cjm-footer">
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#07573B;border:2px solid #90AE2F"></div>
+        Etapa activa del sitio
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#90AE2F"></div>
+        Etapa con máxima satisfacción
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#8b2222;"></div>
+        Punto de dolor identificado en investigación
+      </div>
+    </div>
+    <span>IHomotic · ihomotic.vercel.app · Universidad EAFIT · 2026</span>
+  </footer>
+
+</body>
+</html>
