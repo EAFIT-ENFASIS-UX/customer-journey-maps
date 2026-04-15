@@ -6,6 +6,39 @@
   <title>Roadmap — i-Homotic 2026</title>
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── Fix: clip bar labels inside the bar ── */
+    .bar {
+      overflow: hidden !important;
+      white-space: nowrap !important;
+      text-overflow: ellipsis !important;
+      box-sizing: border-box !important;
+    }
+
+    /* ── New phase color tokens ── */
+    :root {
+      --p5:    #bf5e10;
+      --p5-bg: #fef6f0;
+      --p6:    #7a3a08;
+      --p6-bg: #fdf0e6;
+    }
+
+    /* ── Month cells for extended months (same look as existing) ── */
+    .month-sep, .month-oct, .month-nov, .month-dec {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      color: rgba(5,31,25,.45);
+      border-right: 1px solid rgba(5,31,25,.08);
+      display: flex;
+      align-items: center;
+      padding-left: 6px;
+      background: #f7faf7;
+    }
+
+    /* ── Today line spans its host cell height ── */
+    .today-line { pointer-events: none; }
+  </style>
 </head>
 <body class="roadmap-page">
 
@@ -17,536 +50,658 @@
     <a class="global-nav-link" href="service-blueprint-ihomotic.html">Service blueprint</a>
   </nav>
 
+  <header>
+    <div>
+      <h1 class="h-title">Roadmap <span>— i-Homotic 2026</span></h1>
+      <p class="h-sub">Fases académicas (abr–may) + Hoja de ruta para el cliente (jun–dic) · EAFIT 2026</p>
+    </div>
+    <div class="h-logo">
+      <div class="logo-badge">i</div>
+      IHomotic
+    </div>
+  </header>
 
-<header>
-  <div>
-    <h1 class="h-title">Roadmap <span>— i-Homotic 2026</span></h1>
-    <p class="h-sub">Fases académicas (abr–may) + Proyección post-entrega a cargo del cliente (jun–ago) · EAFIT 2026</p>
-  </div>
-  <div class="h-logo">
-    <div class="logo-badge">i</div>
-    IHomotic
-  </div>
-</header>
-
-<div class="legend">
-  <div class="lg"><div class="lg-dot" style="background:var(--p1)"></div>Fase 1 · Consolidación de prototipos</div>
-  <div class="lg"><div class="lg-dot" style="background:var(--p2)"></div>Fase 2 · Validación con usuarios</div>
-  <div class="lg"><div class="lg-dot" style="background:var(--p3)"></div>Fase 3 · Presentaciones finales</div>
-  <div class="lg"><div class="lg-dot" style="background:var(--p4)"></div>Fase 4 · Post-entrega (cliente)</div>
-  <div class="lg"><div class="lg-dot" style="background:var(--lime); border:2px solid var(--dark);"></div>Hito</div>
-  <div class="lg"><div class="lg-dot" style="background:var(--orange); border-radius:0;"></div>Hoy (13 abr)</div>
-  <div class="lg"><span style="font-size:.7rem;font-weight:700;color:rgba(5,31,25,.4)">✔ Completado &nbsp;◐ En curso &nbsp;○ Pendiente &nbsp;★ Cliente</span></div>
-</div>
-
-<!--
-  GANTT LOGIC
-  Timeline: Apr 13 – Aug 31 = 141 days total = 100%
-  Day 1 = Apr 13 (today)
-  Each day = 100/141 %
-
-  Key dates (day offset from Apr 13):
-  Apr 13 = day 0   (today)
-  Apr 14 = day 1
-  Apr 21 = day 8
-  Apr 25 = day 12
-  Apr 28 = day 15
-  May 1  = day 18
-  May 5  = day 22
-  May 7  = day 24
-  May 8  = day 25
-  May 12 = day 29
-  May 14 = day 31
-  May 16 = day 33
-  May 19 = day 36
-  May 21 = day 38
-  May 23 = day 40
-  May 26 = day 43
-  May 28 = day 45
-  May 30 = day 47
-  Jun 2  = day 50
-  Jun 9  = day 57
-  Jun 16 = day 64
-  Jun 30 = day 78
-  Jul 14 = day 92
-  Jul 31 = day 109
-  Aug 15 = day 124
-  Aug 31 = day 140
-
-  Total span = 141 days
-  left% = offset/141 * 100
-  width% = duration/141 * 100
--->
-
-<div class="roadmap-wrap">
-
-  <!-- MONTH BAR -->
-  <div class="month-bar">
-    <div class="spacer"></div>
-    <div class="month-cell month-apr">Abril 2026</div>
-    <div class="month-cell month-may">Mayo 2026</div>
-    <div class="month-cell month-jun">Junio →</div>
-    <div class="month-cell month-jul">Julio →</div>
-    <div class="month-cell month-aug">Agosto →</div>
+  <div class="legend">
+    <div class="lg"><div class="lg-dot" style="background:var(--p1)"></div>Fase 1 · Consolidación</div>
+    <div class="lg"><div class="lg-dot" style="background:var(--p2)"></div>Fase 2 · Validación</div>
+    <div class="lg"><div class="lg-dot" style="background:var(--p3)"></div>Fase 3 · Cierre académico</div>
+    <div class="lg"><div class="lg-dot" style="background:var(--p4)"></div>Fase 4 · Producción y lanzamiento ★</div>
+    <div class="lg"><div class="lg-dot" style="background:var(--p5)"></div>Fase 5 · Crecimiento y validación ★</div>
+    <div class="lg"><div class="lg-dot" style="background:var(--p6)"></div>Fase 6 · Escalamiento ★</div>
+    <div class="lg"><div class="lg-dot" style="background:var(--lime); border:2px solid var(--dark);"></div>Hito</div>
+    <div class="lg"><div class="lg-dot" style="background:var(--orange); border-radius:0;"></div>Hoy (15 abr)</div>
+    <div class="lg"><span style="font-size:.7rem;font-weight:700;color:rgba(5,31,25,.4)">✔ Completado &nbsp;◐ En curso &nbsp;○ Pendiente &nbsp;★ Cliente</span></div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       PHASE 1 · CONSOLIDACIÓN DE PROTOTIPOS
-  ══════════════════════════════════════════ -->
-  <div class="phase-header" style="background:var(--p1-bg); border-left:4px solid var(--p1);">
-    <div class="phase-label">
-      <div class="phase-num" style="background:var(--p1);">1</div>
-      <div>
-        <div class="phase-title" style="color:var(--p1);">Consolidación de Prototipos</div>
-        <div class="phase-sub">13 abr – 7 may · Equipo completo</div>
+  <!--
+  ════════════════════════════════════════════════════════════════
+  GANTT — Timeline: Apr 13 → Dec 31, 2026 = 262 días = 100%
+  Fórmula: left% = díaDesdeAbr13 / 262 × 100
+           width% = duración / 262 × 100
+
+  Offsets clave:
+    Abr 13 =   0 →  0.00%   ← inicio
+    Abr 15 =   2 →  0.76%   ← HOY
+    Abr 21 =   8 →  3.05%
+    Abr 25 =  12 →  4.58%
+    Abr 28 =  15 →  5.73%
+    May 02 =  19 →  7.25%
+    May 05 =  22 →  8.40%
+    May 07 =  24 →  9.16%
+    May 08 =  25 →  9.54%
+    May 12 =  29 → 11.07%
+    May 14 =  31 → 11.83%
+    May 19 =  36 → 13.74%
+    May 20 =  37 → 14.12%
+    May 24 =  41 → 15.65%
+    May 26 =  43 → 16.41%
+    May 28 =  45 → 17.18%
+    May 30 =  47 → 17.94%
+    Jun 01 =  49 → 18.70%
+    Jun 15 =  63 → 24.05%
+    Jun 30 =  78 → 29.77%
+    Jul 07 =  85 → 32.44%
+    Jul 14 =  92 → 35.11%
+    Jul 31 = 109 → 41.60%
+    Ago 01 = 110 → 41.98%
+    Ago 15 = 124 → 47.33%
+    Ago 17 = 126 → 48.09%
+    Ago 31 = 140 → 53.44%
+    Sep 01 = 141 → 53.82%
+    Sep 15 = 155 → 59.16%
+    Sep 30 = 170 → 64.89%
+    Oct 01 = 171 → 65.27%
+    Oct 31 = 201 → 76.72%
+    Nov 01 = 202 → 77.10%
+    Nov 30 = 231 → 88.17%
+    Dic 01 = 232 → 88.55%
+    Dic 31 = 262 → 100.00%
+  ════════════════════════════════════════════════════════════════
+  -->
+
+  <div class="roadmap-wrap">
+
+    <!-- ── BARRA DE MESES ── -->
+    <div class="month-bar">
+      <div class="spacer"></div>
+      <!-- Cada flex-value = días del período en nuestro rango (total 262) -->
+      <div class="month-cell month-apr" style="flex:18">Abril 2026</div>
+      <div class="month-cell month-may" style="flex:31">Mayo 2026</div>
+      <div class="month-cell month-jun" style="flex:30">Junio</div>
+      <div class="month-cell month-jul" style="flex:31">Julio</div>
+      <div class="month-cell month-aug" style="flex:31">Agosto</div>
+      <div class="month-sep" style="flex:30">Septiembre</div>
+      <div class="month-oct" style="flex:31">Octubre</div>
+      <div class="month-nov" style="flex:30">Noviembre</div>
+      <div class="month-dec" style="flex:31">Diciembre</div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         FASE 1 · CONSOLIDACIÓN DE PROTOTIPOS
+         Abr 13 – May 7  (días 0–24 → 0–9.16%)
+    ════════════════════════════════════════ -->
+    <div class="phase-header" style="background:var(--p1-bg); border-left:4px solid var(--p1);">
+      <div class="phase-label">
+        <div class="phase-num" style="background:var(--p1);">1</div>
+        <div>
+          <div class="phase-title" style="color:var(--p1);">Consolidación de Prototipos</div>
+          <div class="phase-sub">◐ En curso · 13 abr – 7 may · Equipo completo</div>
+        </div>
+      </div>
+      <div class="phase-gantt" style="background:var(--p1-bg); position:relative;">
+        <div class="bar" style="left:0%; width:9.16%; background:var(--p1); opacity:.3;"></div>
+        <div class="today-line" style="left:0.76%;"></div>
       </div>
     </div>
-    <div class="phase-gantt" style="background:var(--p1-bg); position:relative;">
-      <!-- Phase bar: day 0–24 → 0% to 17% -->
-      <div class="bar" style="left:0%; width:17%; background:var(--p1); opacity:.35;"></div>
-    </div>
-  </div>
 
-  <!-- META HEADER -->
-  <div class="task-row" style="background:#fafcfa; min-height:28px;">
-    <div class="task-label" style="font-size:.62rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:rgba(5,31,25,.35); padding-left:2.2rem;">Tarea</div>
-    <div class="task-meta" style="font-size:.62rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:rgba(5,31,25,.35);">
-      <div class="meta-cell">Inicio</div>
-      <div class="meta-cell">Fin</div>
-      <div class="meta-cell">Días</div>
-      <div class="meta-cell">Responsable</div>
+    <!-- Cabecera de columnas meta -->
+    <div class="task-row" style="background:#fafcfa; min-height:26px;">
+      <div class="task-label" style="font-size:.62rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(5,31,25,.35);padding-left:2.2rem;">Tarea</div>
+      <div class="task-meta" style="font-size:.62rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(5,31,25,.35);">
+        <div class="meta-cell">Inicio</div>
+        <div class="meta-cell">Fin</div>
+        <div class="meta-cell">Días</div>
+        <div class="meta-cell">Responsable</div>
+      </div>
+      <div class="task-gantt"></div>
     </div>
-    <div class="task-gantt"></div>
-  </div>
 
-  <!-- TASKS P1 -->
-
-  <!-- Manual de marca — tokens, átomos, moléculas -->
-  <div class="task-row">
-    <div class="task-label">Manual de marca — tokens, componentes y guías de uso</div>
-    <div class="task-meta">
-      <div class="meta-cell">Abr 13</div>
-      <div class="meta-cell">Abr 25</div>
-      <div class="meta-cell">12</div>
-      <div class="meta-cell resp">Andrea · Sofía</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:0%; width:8.5%; background:var(--p1);">Manual marca</div>
-    </div>
-  </div>
-
-  <!-- Sitio web — interactivos (calculadora, quiz, configurador) -->
-  <div class="task-row">
-    <div class="task-label">Sitio web — calculadora, quiz y configurador modular</div>
-    <div class="task-meta">
-      <div class="meta-cell">Abr 13</div>
-      <div class="meta-cell">Abr 28</div>
-      <div class="meta-cell">15</div>
-      <div class="meta-cell resp">Ioav · Juan C.</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:0%; width:10.6%; background:var(--p1);">Interactivos</div>
-      <!-- Today line -->
-      <div class="today-line" style="left:0%;"></div>
-    </div>
-  </div>
-
-  <!-- Sitio web — visualizador 3D -->
-  <div class="task-row">
-    <div class="task-label">Sitio web — visualizador 3D de casa (Three.js)</div>
-    <div class="task-meta">
-      <div class="meta-cell">Abr 14</div>
-      <div class="meta-cell">May 2</div>
-      <div class="meta-cell">18</div>
-      <div class="meta-cell resp">Ioav · Laura R.</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:0.7%; width:12.8%; background:var(--p1);">Visualizador 3D</div>
-    </div>
-  </div>
-
-  <!-- Formulario + n8n -->
-  <div class="task-row">
-    <div class="task-label">Sitio web — formulario de contacto + automatización n8n</div>
-    <div class="task-meta">
-      <div class="meta-cell">Abr 21</div>
-      <div class="meta-cell">Abr 28</div>
-      <div class="meta-cell">7</div>
-      <div class="meta-cell resp">Ioav · Laura O.</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:5.7%; width:5%; background:var(--p1);">Formulario n8n</div>
-    </div>
-  </div>
-
-  <!-- Stand — concepto espacial y elevaciones -->
-  <div class="task-row">
-    <div class="task-label">Stand — concepto espacial, elevaciones y maqueta Canva</div>
-    <div class="task-meta">
-      <div class="meta-cell">Abr 14</div>
-      <div class="meta-cell">May 5</div>
-      <div class="meta-cell">21</div>
-      <div class="meta-cell resp">Andrea · Laura R.</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:0.7%; width:14.9%; background:var(--p1);">Stand · Diseño espacial</div>
-    </div>
-  </div>
-
-  <!-- Integración visual — manual aplicado al sitio y stand -->
-  <div class="task-row">
-    <div class="task-label">Integración visual — manual aplicado a sitio y stand</div>
-    <div class="task-meta">
-      <div class="meta-cell">Abr 25</div>
-      <div class="meta-cell">May 7</div>
-      <div class="meta-cell">12</div>
-      <div class="meta-cell resp">Todos</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:8.5%; width:8.5%; background:var(--p1);">Integración visual</div>
-    </div>
-  </div>
-
-  <!-- HITO 1 -->
-  <div class="task-row" style="background:rgba(144,174,47,.06); min-height:30px;">
-    <div class="task-label" style="font-weight:800; font-size:.73rem; color:var(--mid);">⬡ HITO 1 — Prototipos consolidados listos para validación</div>
-    <div class="task-meta">
-      <div class="meta-cell" style="font-weight:700;">May 7</div>
-      <div class="meta-cell">—</div>
-      <div class="meta-cell">—</div>
-      <div class="meta-cell resp">Equipo</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="milestone" style="left:17.0%;"></div>
-      <div class="milestone-label" style="left:17.7%;">Hito 1 · MPVs listos</div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════════
-       PHASE 2 · VALIDACIÓN CON USUARIOS
-  ══════════════════════════════════════════ -->
-  <div class="phase-header" style="background:var(--p2-bg); border-left:4px solid var(--p2);">
-    <div class="phase-label">
-      <div class="phase-num" style="background:var(--p2);">2</div>
-      <div>
-        <div class="phase-title" style="color:var(--p2);">Validación con Usuarios</div>
-        <div class="phase-sub">8 may – 19 may · Equipo + usuarios reales</div>
+    <!-- Manual de marca -->
+    <div class="task-row">
+      <div class="task-label">✔ Manual de marca — tokens, componentes y guías de uso</div>
+      <div class="task-meta">
+        <div class="meta-cell">Abr 13</div><div class="meta-cell">Abr 25</div>
+        <div class="meta-cell">12</div><div class="meta-cell resp">Andrea · Sofía</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:0%;width:4.58%;background:var(--p1);">Manual marca</div>
+        <div class="today-line" style="left:0.76%;"></div>
       </div>
     </div>
-    <div class="phase-gantt" style="background:var(--p2-bg);">
-      <div class="bar" style="left:17.7%; width:8.5%; background:var(--p2); opacity:.35;"></div>
-    </div>
-  </div>
 
-  <!-- Prueba de usabilidad sitio web -->
-  <div class="task-row">
-    <div class="task-label">Prueba de usabilidad del sitio web con 3–5 usuarios</div>
-    <div class="task-meta">
-      <div class="meta-cell">May 8</div>
-      <div class="meta-cell">May 12</div>
-      <div class="meta-cell">4</div>
-      <div class="meta-cell resp">Laura O. · Juan C.</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:17.7%; width:2.8%; background:var(--p2);">Test sitio</div>
-    </div>
-  </div>
-
-  <!-- Prueba de experiencia stand (simulación) -->
-  <div class="task-row">
-    <div class="task-label">Simulación de experiencia del stand con el equipo</div>
-    <div class="task-meta">
-      <div class="meta-cell">May 8</div>
-      <div class="meta-cell">May 9</div>
-      <div class="meta-cell">1</div>
-      <div class="meta-cell resp">Todos</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:17.7%; width:0.7%; background:var(--p2);">Sim.</div>
-    </div>
-  </div>
-
-  <!-- Registro y análisis de observaciones -->
-  <div class="task-row">
-    <div class="task-label">Registro de observaciones, pain points y oportunidades</div>
-    <div class="task-meta">
-      <div class="meta-cell">May 12</div>
-      <div class="meta-cell">May 14</div>
-      <div class="meta-cell">2</div>
-      <div class="meta-cell resp">Andrea · Sofía</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:20.6%; width:1.4%; background:var(--p2);">Análisis</div>
-    </div>
-  </div>
-
-  <!-- Ajustes finales post-validación -->
-  <div class="task-row">
-    <div class="task-label">Ajustes finales al prototipo según hallazgos de validación</div>
-    <div class="task-meta">
-      <div class="meta-cell">May 14</div>
-      <div class="meta-cell">May 19</div>
-      <div class="meta-cell">5</div>
-      <div class="meta-cell resp">Todos</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:22.0%; width:3.5%; background:var(--p2);">Ajustes</div>
-    </div>
-  </div>
-
-  <!-- HITO 2 -->
-  <div class="task-row" style="background:rgba(144,174,47,.06); min-height:30px;">
-    <div class="task-label" style="font-weight:800; font-size:.73rem; color:var(--mid);">⬡ HITO 2 — Validación completada · Prototipo final</div>
-    <div class="task-meta">
-      <div class="meta-cell" style="font-weight:700;">May 19</div>
-      <div class="meta-cell">—</div>
-      <div class="meta-cell">—</div>
-      <div class="meta-cell resp">Equipo</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="milestone" style="left:25.5%;"></div>
-      <div class="milestone-label" style="left:26.2%;">Hito 2 · Prototipo final</div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════════
-       PHASE 3 · PRESENTACIONES FINALES
-  ══════════════════════════════════════════ -->
-  <div class="phase-header" style="background:var(--p3-bg); border-left:4px solid var(--p3);">
-    <div class="phase-label">
-      <div class="phase-num" style="background:var(--p3);">3</div>
-      <div>
-        <div class="phase-title" style="color:var(--p3);">Presentaciones Finales</div>
-        <div class="phase-sub">20 may – 30 may · Cierre académico</div>
+    <!-- Sitio web — interactivos -->
+    <div class="task-row">
+      <div class="task-label">◐ Sitio web — calculadora, quiz y configurador modular</div>
+      <div class="task-meta">
+        <div class="meta-cell">Abr 13</div><div class="meta-cell">Abr 28</div>
+        <div class="meta-cell">15</div><div class="meta-cell resp">Ioav · Juan C.</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:0%;width:5.73%;background:var(--p1);">Calculadora · quiz · configurador</div>
+        <div class="today-line" style="left:0.76%;"></div>
       </div>
     </div>
-    <div class="phase-gantt" style="background:var(--p3-bg);">
-      <div class="bar" style="left:25.5%; width:8.5%; background:var(--p3); opacity:.35;"></div>
-    </div>
-  </div>
 
-  <!-- Preparación de presentación final -->
-  <div class="task-row">
-    <div class="task-label">Preparación de presentación final (deck + demo en vivo)</div>
-    <div class="task-meta">
-      <div class="meta-cell">May 20</div>
-      <div class="meta-cell">May 23</div>
-      <div class="meta-cell">3</div>
-      <div class="meta-cell resp">Todos</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:25.5%; width:2.1%; background:var(--p3);">Deck final</div>
-    </div>
-  </div>
-
-  <!-- Presentación al cliente Carlos Lezcano -->
-  <div class="task-row">
-    <div class="task-label">Presentación al cliente — Carlos Lezcano (i-Homotic)</div>
-    <div class="task-meta">
-      <div class="meta-cell">May 24</div>
-      <div class="meta-cell">May 24</div>
-      <div class="meta-cell">1</div>
-      <div class="meta-cell resp">Todos</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:27.7%; width:0.7%; background:var(--p3);">Pres. cliente</div>
-    </div>
-  </div>
-
-  <!-- Presentación al jurado EAFIT -->
-  <div class="task-row">
-    <div class="task-label">Presentación al jurado académico — Universidad EAFIT</div>
-    <div class="task-meta">
-      <div class="meta-cell">May 26</div>
-      <div class="meta-cell">May 28</div>
-      <div class="meta-cell">2</div>
-      <div class="meta-cell resp">Todos</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:29.1%; width:1.4%; background:var(--p3);">Jurado EAFIT</div>
-    </div>
-  </div>
-
-  <!-- Entrega de documentación -->
-  <div class="task-row">
-    <div class="task-label">Entrega de documentación final al cliente (archivos, accesos)</div>
-    <div class="task-meta">
-      <div class="meta-cell">May 28</div>
-      <div class="meta-cell">May 30</div>
-      <div class="meta-cell">2</div>
-      <div class="meta-cell resp">Juan C. · Ioav</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="bar" style="left:30.5%; width:1.4%; background:var(--p3);">Docs</div>
-    </div>
-  </div>
-
-  <!-- HITO 3 -->
-  <div class="task-row" style="background:rgba(144,174,47,.06); min-height:30px;">
-    <div class="task-label" style="font-weight:800; font-size:.73rem; color:var(--mid);">⬡ HITO 3 — Cierre académico · Entrega completa al cliente</div>
-    <div class="task-meta">
-      <div class="meta-cell" style="font-weight:700;">May 30</div>
-      <div class="meta-cell">—</div>
-      <div class="meta-cell">—</div>
-      <div class="meta-cell resp">Equipo</div>
-    </div>
-    <div class="task-gantt" style="position:relative;">
-      <div class="milestone" style="left:31.9%;"></div>
-      <div class="milestone-label" style="left:32.6%;">Hito 3 · Cierre EAFIT</div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════════
-       SEPARADOR POST-ENTREGA
-  ══════════════════════════════════════════ -->
-  <div class="section-sep">
-    <div class="sep-label" style="background:#fdf4ec; color:#9a4a08; border-top:2px dashed rgba(232,114,26,.4); border-bottom:2px dashed rgba(232,114,26,.4);">
-      ★ A partir de aquí — a cargo del cliente · i-Homotic / Carlos Lezcano
-    </div>
-    <div class="sep-gantt" style="background:#fdf4ec; border-top:2px dashed rgba(232,114,26,.4); border-bottom:2px dashed rgba(232,114,26,.4); flex:1; height:100%;"></div>
-  </div>
-
-  <!-- ══════════════════════════════════════════
-       PHASE 4 · POST-ENTREGA (CLIENTE)
-  ══════════════════════════════════════════ -->
-  <div class="phase-header" style="background:var(--p4-bg); border-left:4px solid var(--p4);">
-    <div class="phase-label">
-      <div class="phase-num" style="background:var(--p4);">4</div>
-      <div>
-        <div class="phase-title" style="color:var(--p4);">Implementación y Lanzamiento</div>
-        <div class="phase-sub">Jun – Ago 2026 · Hipotético · A cargo de i-Homotic</div>
+    <!-- Visualizador 3D -->
+    <div class="task-row">
+      <div class="task-label">◐ Sitio web — visualizador 3D de casa (Three.js)</div>
+      <div class="task-meta">
+        <div class="meta-cell">Abr 14</div><div class="meta-cell">May 2</div>
+        <div class="meta-cell">18</div><div class="meta-cell resp">Ioav · Laura R.</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:0.38%;width:6.87%;background:var(--p1);">Visualizador 3D</div>
+        <div class="today-line" style="left:0.76%;"></div>
       </div>
     </div>
-    <div class="phase-gantt" style="background:var(--p4-bg);">
-      <div class="bar" style="left:34%; width:66%; background:var(--p4); opacity:.2;"></div>
-    </div>
-  </div>
 
-  <!-- Producción de contenido real (fotos, videos) -->
-  <div class="task-row" style="background:#fefaf6;">
-    <div class="task-label">Producción de contenido real — fotos y videos de proyectos</div>
-    <div class="task-meta">
-      <div class="meta-cell">Jun 2</div>
-      <div class="meta-cell">Jun 16</div>
-      <div class="meta-cell">14</div>
-      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    <!-- Formulario + n8n -->
+    <div class="task-row">
+      <div class="task-label">◐ Sitio web — formulario de contacto + automatización n8n</div>
+      <div class="task-meta">
+        <div class="meta-cell">Abr 21</div><div class="meta-cell">Abr 28</div>
+        <div class="meta-cell">7</div><div class="meta-cell resp">Ioav · Laura O.</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:3.05%;width:2.67%;background:var(--p1);">Formulario n8n</div>
+        <div class="today-line" style="left:0.76%;"></div>
+      </div>
     </div>
-    <div class="task-gantt" style="position:relative; background:#fefaf6;">
-      <div class="bar" style="left:35.5%; width:9.9%; background:var(--p4);">Contenido real</div>
-    </div>
-  </div>
 
-  <!-- Integración de contenido real al sitio -->
-  <div class="task-row" style="background:#fefaf6;">
-    <div class="task-label">Integración de contenido real al sitio web (reemplaza placeholders)</div>
-    <div class="task-meta">
-      <div class="meta-cell">Jun 16</div>
-      <div class="meta-cell">Jun 30</div>
-      <div class="meta-cell">14</div>
-      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente / Dev</div>
+    <!-- Stand — concepto espacial -->
+    <div class="task-row">
+      <div class="task-label">◐ Stand — concepto espacial, elevaciones y maqueta Canva</div>
+      <div class="task-meta">
+        <div class="meta-cell">Abr 14</div><div class="meta-cell">May 5</div>
+        <div class="meta-cell">21</div><div class="meta-cell resp">Andrea · Laura R.</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:0.38%;width:8.02%;background:var(--p1);">Stand · Diseño espacial</div>
+        <div class="today-line" style="left:0.76%;"></div>
+      </div>
     </div>
-    <div class="task-gantt" style="position:relative; background:#fefaf6;">
-      <div class="bar" style="left:45.4%; width:9.9%; background:var(--p4);">Contenido al sitio</div>
-    </div>
-  </div>
 
-  <!-- Configuración de dominio y lanzamiento público -->
-  <div class="task-row" style="background:#fefaf6;">
-    <div class="task-label">Configuración de dominio propio y lanzamiento público</div>
-    <div class="task-meta">
-      <div class="meta-cell">Jun 30</div>
-      <div class="meta-cell">Jul 7</div>
-      <div class="meta-cell">7</div>
-      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    <!-- Integración visual -->
+    <div class="task-row">
+      <div class="task-label">○ Integración visual — manual aplicado a sitio y stand</div>
+      <div class="task-meta">
+        <div class="meta-cell">Abr 25</div><div class="meta-cell">May 7</div>
+        <div class="meta-cell">12</div><div class="meta-cell resp">Todos</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:4.58%;width:4.58%;background:var(--p1);">Integración visual</div>
+      </div>
     </div>
-    <div class="task-gantt" style="position:relative; background:#fefaf6;">
-      <div class="bar" style="left:55.3%; width:5.0%; background:var(--p4);">Dominio + launch</div>
-    </div>
-  </div>
 
-  <!-- Estrategia Instagram / SEO -->
-  <div class="task-row" style="background:#fefaf6;">
-    <div class="task-label">Activación de estrategia Instagram + SEO orgánico</div>
-    <div class="task-meta">
-      <div class="meta-cell">Jul 1</div>
-      <div class="meta-cell">Jul 31</div>
-      <div class="meta-cell">30</div>
-      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    <!-- HITO 1 -->
+    <div class="task-row" style="background:rgba(144,174,47,.06); min-height:30px;">
+      <div class="task-label" style="font-weight:800;font-size:.73rem;color:var(--mid);">⬡ HITO 1 — Prototipos consolidados listos para validación</div>
+      <div class="task-meta">
+        <div class="meta-cell" style="font-weight:700;">May 7</div>
+        <div class="meta-cell">—</div><div class="meta-cell">—</div>
+        <div class="meta-cell resp">Equipo</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="milestone" style="left:9.16%;"></div>
+        <div class="milestone-label" style="left:9.8%;">Hito 1 · MVPs listos</div>
+      </div>
     </div>
-    <div class="task-gantt" style="position:relative; background:#fefaf6;">
-      <div class="bar" style="left:56.0%; width:21.3%; background:var(--p4);">Instagram + SEO</div>
-    </div>
-  </div>
 
-  <!-- Construcción y prueba del stand real -->
-  <div class="task-row" style="background:#fefaf6;">
-    <div class="task-label">Construcción y montaje del stand real (según diseño entregado)</div>
-    <div class="task-meta">
-      <div class="meta-cell">Jul 14</div>
-      <div class="meta-cell">Ago 15</div>
-      <div class="meta-cell">32</div>
-      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    <!-- ════════════════════════════════════════
+         FASE 2 · VALIDACIÓN CON USUARIOS
+         May 8 – May 19  (días 25–36 → 9.54–13.74%)
+    ════════════════════════════════════════ -->
+    <div class="phase-header" style="background:var(--p2-bg); border-left:4px solid var(--p2);">
+      <div class="phase-label">
+        <div class="phase-num" style="background:var(--p2);">2</div>
+        <div>
+          <div class="phase-title" style="color:var(--p2);">Validación con Usuarios</div>
+          <div class="phase-sub">○ Pendiente · 8 may – 19 may · Equipo + usuarios reales</div>
+        </div>
+      </div>
+      <div class="phase-gantt" style="background:var(--p2-bg); position:relative;">
+        <div class="bar" style="left:9.54%;width:4.20%;background:var(--p2);opacity:.3;"></div>
+      </div>
     </div>
-    <div class="task-gantt" style="position:relative; background:#fefaf6;">
-      <div class="bar" style="left:65.2%; width:22.7%; background:var(--p4);">Stand físico</div>
-    </div>
-  </div>
 
-  <!-- Negociaciones con constructoras -->
-  <div class="task-row" style="background:#fefaf6;">
-    <div class="task-label">Apertura de negociaciones con constructoras (material digital listo)</div>
-    <div class="task-meta">
-      <div class="meta-cell">Jul 7</div>
-      <div class="meta-cell">Ago 31</div>
-      <div class="meta-cell">55</div>
-      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    <!-- Test sitio web -->
+    <div class="task-row">
+      <div class="task-label">○ Prueba de usabilidad del sitio web con 3–5 usuarios</div>
+      <div class="task-meta">
+        <div class="meta-cell">May 8</div><div class="meta-cell">May 12</div>
+        <div class="meta-cell">4</div><div class="meta-cell resp">Laura O. · Juan C.</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:9.54%;width:1.53%;background:var(--p2);">Test sitio</div>
+      </div>
     </div>
-    <div class="task-gantt" style="position:relative; background:#fefaf6;">
-      <div class="bar" style="left:60.3%; width:39.0%; background:var(--p4); opacity:.7;">Prospección constructoras</div>
-    </div>
-  </div>
 
-  <!-- Participación en Feria del Diseño -->
-  <div class="task-row" style="background:#fefaf6;">
-    <div class="task-label">Participación en Feria del Diseño — Plaza Mayor Medellín</div>
-    <div class="task-meta">
-      <div class="meta-cell">Ago 15</div>
-      <div class="meta-cell">Ago 17</div>
-      <div class="meta-cell">3</div>
-      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    <!-- Simulación stand -->
+    <div class="task-row">
+      <div class="task-label">○ Simulación de experiencia del stand con el equipo</div>
+      <div class="task-meta">
+        <div class="meta-cell">May 8</div><div class="meta-cell">May 9</div>
+        <div class="meta-cell">1</div><div class="meta-cell resp">Todos</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:9.54%;width:0.76%;background:var(--p2);">Sim.</div>
+      </div>
     </div>
-    <div class="task-gantt" style="position:relative; background:#fefaf6;">
-      <div class="bar" style="left:87.9%; width:2.1%; background:var(--orange);">🎪 Feria</div>
-    </div>
-  </div>
 
-  <!-- HITO 4 -->
-  <div class="task-row" style="background:#fdf4ec; min-height:30px;">
-    <div class="task-label" style="font-weight:800; font-size:.73rem; color:#9a4a08;">⬡ HITO 4 — Sitio live + Stand físico + Primera Feria del Diseño</div>
-    <div class="task-meta">
-      <div class="meta-cell" style="font-weight:700;">Ago 17</div>
-      <div class="meta-cell">—</div>
-      <div class="meta-cell">—</div>
-      <div class="meta-cell" style="color:#9a4a08; font-weight:700;">★ Cliente</div>
+    <!-- Registro observaciones -->
+    <div class="task-row">
+      <div class="task-label">○ Registro de observaciones, pain points y oportunidades</div>
+      <div class="task-meta">
+        <div class="meta-cell">May 12</div><div class="meta-cell">May 14</div>
+        <div class="meta-cell">2</div><div class="meta-cell resp">Andrea · Sofía</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:11.07%;width:0.76%;background:var(--p2);">Análisis</div>
+      </div>
     </div>
-    <div class="task-gantt" style="position:relative; background:#fdf4ec;">
-      <div class="milestone" style="left:90.0%; background:var(--orange); border-color:#9a4a08;"></div>
-      <div class="milestone-label" style="left:85.5%; background:rgba(232,114,26,.85);">Hito 4 · Lanzamiento total</div>
+
+    <!-- Ajustes finales -->
+    <div class="task-row">
+      <div class="task-label">○ Ajustes finales al prototipo según hallazgos de validación</div>
+      <div class="task-meta">
+        <div class="meta-cell">May 14</div><div class="meta-cell">May 19</div>
+        <div class="meta-cell">5</div><div class="meta-cell resp">Todos</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:11.83%;width:1.91%;background:var(--p2);">Ajustes post-validación</div>
+      </div>
     </div>
-  </div>
 
-</div><!-- /roadmap-wrap -->
+    <!-- HITO 2 -->
+    <div class="task-row" style="background:rgba(144,174,47,.06); min-height:30px;">
+      <div class="task-label" style="font-weight:800;font-size:.73rem;color:var(--mid);">⬡ HITO 2 — Validación completada · Prototipo final</div>
+      <div class="task-meta">
+        <div class="meta-cell" style="font-weight:700;">May 19</div>
+        <div class="meta-cell">—</div><div class="meta-cell">—</div>
+        <div class="meta-cell resp">Equipo</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="milestone" style="left:13.74%;"></div>
+        <div class="milestone-label" style="left:14.4%;">Hito 2 · Prototipo final</div>
+      </div>
+    </div>
 
-<footer>
-  <div class="ft-legend">
-    <div class="ft-li"><div class="ft-dot" style="background:var(--p1)"></div>Fase 1 · Consolidación</div>
-    <div class="ft-li"><div class="ft-dot" style="background:var(--p2)"></div>Fase 2 · Validación</div>
-    <div class="ft-li"><div class="ft-dot" style="background:var(--p3)"></div>Fase 3 · Presentaciones</div>
-    <div class="ft-li"><div class="ft-dot" style="background:var(--p4)"></div>Fase 4 · Post-entrega cliente</div>
-    <div class="ft-li"><div class="ft-dot" style="background:var(--lime); border:2px solid var(--dark)"></div>Hito</div>
-  </div>
-  <span>i-Homotic · Roadmap tentativo · Universidad EAFIT · 2026</span>
-</footer>
+    <!-- ════════════════════════════════════════
+         FASE 3 · PRESENTACIONES FINALES Y CIERRE
+         May 20 – May 30  (días 37–47 → 14.12–17.94%)
+    ════════════════════════════════════════ -->
+    <div class="phase-header" style="background:var(--p3-bg); border-left:4px solid var(--p3);">
+      <div class="phase-label">
+        <div class="phase-num" style="background:var(--p3);">3</div>
+        <div>
+          <div class="phase-title" style="color:var(--p3);">Presentaciones Finales y Cierre Académico</div>
+          <div class="phase-sub">○ Pendiente · 20 may – 30 may · Entrega a cliente + jurado EAFIT</div>
+        </div>
+      </div>
+      <div class="phase-gantt" style="background:var(--p3-bg); position:relative;">
+        <div class="bar" style="left:14.12%;width:3.82%;background:var(--p3);opacity:.3;"></div>
+      </div>
+    </div>
+
+    <!-- Deck final -->
+    <div class="task-row">
+      <div class="task-label">○ Preparación de presentación final (deck + demo en vivo)</div>
+      <div class="task-meta">
+        <div class="meta-cell">May 20</div><div class="meta-cell">May 23</div>
+        <div class="meta-cell">3</div><div class="meta-cell resp">Todos</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:14.12%;width:1.15%;background:var(--p3);">Deck</div>
+      </div>
+    </div>
+
+    <!-- Presentación cliente -->
+    <div class="task-row">
+      <div class="task-label">○ Presentación al cliente — Carlos Lezcano (i-Homotic)</div>
+      <div class="task-meta">
+        <div class="meta-cell">May 24</div><div class="meta-cell">May 24</div>
+        <div class="meta-cell">1</div><div class="meta-cell resp">Todos</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:15.65%;width:0.76%;background:var(--p3);">Pres. cliente</div>
+      </div>
+    </div>
+
+    <!-- Presentación jurado EAFIT -->
+    <div class="task-row">
+      <div class="task-label">○ Presentación al jurado académico — Universidad EAFIT</div>
+      <div class="task-meta">
+        <div class="meta-cell">May 26</div><div class="meta-cell">May 28</div>
+        <div class="meta-cell">2</div><div class="meta-cell resp">Todos</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:16.41%;width:0.76%;background:var(--p3);">Jurado EAFIT</div>
+      </div>
+    </div>
+
+    <!-- Entrega documentación -->
+    <div class="task-row">
+      <div class="task-label">○ Entrega de documentación final al cliente (archivos, accesos, hoja de ruta)</div>
+      <div class="task-meta">
+        <div class="meta-cell">May 28</div><div class="meta-cell">May 30</div>
+        <div class="meta-cell">2</div><div class="meta-cell resp">Juan C. · Ioav</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="bar" style="left:17.18%;width:0.76%;background:var(--p3);">Docs finales</div>
+      </div>
+    </div>
+
+    <!-- HITO 3 -->
+    <div class="task-row" style="background:rgba(144,174,47,.06); min-height:30px;">
+      <div class="task-label" style="font-weight:800;font-size:.73rem;color:var(--mid);">⬡ HITO 3 — Cierre académico · Sistema entregado al cliente</div>
+      <div class="task-meta">
+        <div class="meta-cell" style="font-weight:700;">May 30</div>
+        <div class="meta-cell">—</div><div class="meta-cell">—</div>
+        <div class="meta-cell resp">Equipo</div>
+      </div>
+      <div class="task-gantt" style="position:relative;">
+        <div class="milestone" style="left:17.94%;"></div>
+        <div class="milestone-label" style="left:18.6%;">Hito 3 · Cierre EAFIT</div>
+      </div>
+    </div>
+
+    <!-- ══ SEPARADOR POST-ENTREGA ══ -->
+    <div class="section-sep">
+      <div class="sep-label" style="background:#fdf4ec; color:#9a4a08; border-top:2px dashed rgba(232,114,26,.4); border-bottom:2px dashed rgba(232,114,26,.4);">
+        ★ A partir de aquí — hoja de ruta recomendada a cargo del cliente · i-Homotic / Carlos Lezcano
+      </div>
+      <div class="sep-gantt" style="background:#fdf4ec; border-top:2px dashed rgba(232,114,26,.4); border-bottom:2px dashed rgba(232,114,26,.4); flex:1; height:100%;"></div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         FASE 4 · PRODUCCIÓN Y LANZAMIENTO DIGITAL
+         Jun 1 – Jul 31  (días 49–109 → 18.70–41.60%)
+         ★ A cargo del cliente
+    ════════════════════════════════════════ -->
+    <div class="phase-header" style="background:var(--p4-bg); border-left:4px solid var(--p4);">
+      <div class="phase-label">
+        <div class="phase-num" style="background:var(--p4);">4</div>
+        <div>
+          <div class="phase-title" style="color:var(--p4);">Producción y Lanzamiento Digital</div>
+          <div class="phase-sub">★ Jun – Jul 2026 · Convertir los prototipos en presencia real</div>
+        </div>
+      </div>
+      <div class="phase-gantt" style="background:var(--p4-bg); position:relative;">
+        <div class="bar" style="left:18.70%;width:22.90%;background:var(--p4);opacity:.2;"></div>
+      </div>
+    </div>
+
+    <!-- Producción contenido real -->
+    <div class="task-row" style="background:#fefaf6;">
+      <div class="task-label">Producción de contenido real — fotos y videos de proyectos instalados</div>
+      <div class="task-meta">
+        <div class="meta-cell">Jun 1</div><div class="meta-cell">Jun 15</div>
+        <div class="meta-cell">14</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:#fefaf6;">
+        <div class="bar" style="left:18.70%;width:5.34%;background:var(--p4);">Contenido real</div>
+      </div>
+    </div>
+
+    <!-- Integración de contenido al sitio -->
+    <div class="task-row" style="background:#fefaf6;">
+      <div class="task-label">Integración de contenido real al sitio web (reemplaza placeholders)</div>
+      <div class="task-meta">
+        <div class="meta-cell">Jun 15</div><div class="meta-cell">Jun 30</div>
+        <div class="meta-cell">15</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente / Dev</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:#fefaf6;">
+        <div class="bar" style="left:24.05%;width:5.73%;background:var(--p4);">Contenido al sitio</div>
+      </div>
+    </div>
+
+    <!-- Dominio propio + lanzamiento -->
+    <div class="task-row" style="background:#fefaf6;">
+      <div class="task-label">Configuración de dominio propio y lanzamiento público del sitio</div>
+      <div class="task-meta">
+        <div class="meta-cell">Jun 30</div><div class="meta-cell">Jul 7</div>
+        <div class="meta-cell">7</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:#fefaf6;">
+        <div class="bar" style="left:29.77%;width:2.67%;background:var(--p4);">Dominio + launch</div>
+      </div>
+    </div>
+
+    <!-- Instagram básico -->
+    <div class="task-row" style="background:#fefaf6;">
+      <div class="task-label">Activación de perfil Instagram — primeras publicaciones y reels de proyectos</div>
+      <div class="task-meta">
+        <div class="meta-cell">Jun 15</div><div class="meta-cell">Jul 31</div>
+        <div class="meta-cell">46</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:#fefaf6;">
+        <div class="bar" style="left:24.05%;width:17.56%;background:var(--p4);">Instagram — primeras publicaciones</div>
+      </div>
+    </div>
+
+    <!-- HITO 4 -->
+    <div class="task-row" style="background:#fdf4ec; min-height:30px;">
+      <div class="task-label" style="font-weight:800;font-size:.73rem;color:#9a4a08;">⬡ HITO 4 — Sitio web live con contenido real + Instagram activo</div>
+      <div class="task-meta">
+        <div class="meta-cell" style="font-weight:700;">Jul 7</div>
+        <div class="meta-cell">—</div><div class="meta-cell">—</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:#fdf4ec;">
+        <div class="milestone" style="left:32.44%; background:var(--orange); border-color:#9a4a08;"></div>
+        <div class="milestone-label" style="left:33.1%; background:rgba(232,114,26,.85);">Hito 4 · Lanzamiento digital</div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         FASE 5 · CRECIMIENTO Y VALIDACIÓN DE MERCADO
+         Ago 1 – Oct 31  (días 110–201 → 41.98–76.72%)
+         ★ A cargo del cliente
+    ════════════════════════════════════════ -->
+    <div class="phase-header" style="background:var(--p5-bg); border-left:4px solid var(--p5);">
+      <div class="phase-label">
+        <div class="phase-num" style="background:var(--p5);">5</div>
+        <div>
+          <div class="phase-title" style="color:var(--p5);">Crecimiento y Validación de Mercado</div>
+          <div class="phase-sub">★ Ago – Oct 2026 · Feria del Diseño + primeras métricas reales</div>
+        </div>
+      </div>
+      <div class="phase-gantt" style="background:var(--p5-bg); position:relative;">
+        <div class="bar" style="left:41.98%;width:34.73%;background:var(--p5);opacity:.2;"></div>
+      </div>
+    </div>
+
+    <!-- Construcción stand real -->
+    <div class="task-row" style="background:var(--p5-bg);">
+      <div class="task-label">Construcción y montaje del stand físico (según diseño entregado por EAFIT)</div>
+      <div class="task-meta">
+        <div class="meta-cell">Ago 1</div><div class="meta-cell">Sep 15</div>
+        <div class="meta-cell">46</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:var(--p5-bg);">
+        <div class="bar" style="left:41.98%;width:17.18%;background:var(--p5);">Construcción stand físico</div>
+      </div>
+    </div>
+
+    <!-- SEO orgánico -->
+    <div class="task-row" style="background:var(--p5-bg);">
+      <div class="task-label">Estrategia SEO orgánico y publicación continua de contenido en el sitio</div>
+      <div class="task-meta">
+        <div class="meta-cell">Ago 1</div><div class="meta-cell">Oct 31</div>
+        <div class="meta-cell">91</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:var(--p5-bg);">
+        <div class="bar" style="left:41.98%;width:34.73%;background:var(--p5);opacity:.7;">SEO orgánico continuo</div>
+      </div>
+    </div>
+
+    <!-- Feria del Diseño -->
+    <div class="task-row" style="background:var(--p5-bg);">
+      <div class="task-label">🎪 Participación en Feria del Diseño — Plaza Mayor Medellín</div>
+      <div class="task-meta">
+        <div class="meta-cell">Ago 15</div><div class="meta-cell">Ago 17</div>
+        <div class="meta-cell">3</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:var(--p5-bg);">
+        <div class="bar" style="left:47.33%;width:0.76%;background:var(--orange);">Feria</div>
+      </div>
+    </div>
+
+    <!-- Google Business + reseñas -->
+    <div class="task-row" style="background:var(--p5-bg);">
+      <div class="task-label">Activación Google Business Profile + primeras reseñas verificables</div>
+      <div class="task-meta">
+        <div class="meta-cell">Sep 1</div><div class="meta-cell">Sep 30</div>
+        <div class="meta-cell">30</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:var(--p5-bg);">
+        <div class="bar" style="left:53.82%;width:11.45%;background:var(--p5);">Google Business + reseñas</div>
+      </div>
+    </div>
+
+    <!-- Negociaciones constructoras -->
+    <div class="task-row" style="background:var(--p5-bg);">
+      <div class="task-label">Apertura de negociaciones con constructoras (material digital ya listo)</div>
+      <div class="task-meta">
+        <div class="meta-cell">Sep 1</div><div class="meta-cell">Oct 31</div>
+        <div class="meta-cell">61</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:var(--p5-bg);">
+        <div class="bar" style="left:53.82%;width:23.28%;background:var(--p5);opacity:.75;">Prospección constructoras</div>
+      </div>
+    </div>
+
+    <!-- HITO 5 -->
+    <div class="task-row" style="background:rgba(191,94,16,.05); min-height:30px;">
+      <div class="task-label" style="font-weight:800;font-size:.73rem;color:var(--p5);">⬡ HITO 5 — Primera Feria del Diseño + primeros leads digitales documentados</div>
+      <div class="task-meta">
+        <div class="meta-cell" style="font-weight:700;">Ago 17</div>
+        <div class="meta-cell">—</div><div class="meta-cell">—</div>
+        <div class="meta-cell" style="color:#9a4a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:rgba(191,94,16,.04);">
+        <div class="milestone" style="left:48.09%; background:var(--p5); border-color:var(--p5);"></div>
+        <div class="milestone-label" style="left:48.8%; background:var(--p5);">Hito 5 · Feria + primeros leads</div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         FASE 6 · ESCALAMIENTO Y NUEVOS CANALES
+         Nov 1 – Dic 31  (días 202–262 → 77.10–100%)
+         ★ A cargo del cliente · Horizonte propuesto
+    ════════════════════════════════════════ -->
+    <div class="phase-header" style="background:var(--p6-bg); border-left:4px solid var(--p6);">
+      <div class="phase-label">
+        <div class="phase-num" style="background:var(--p6);">6</div>
+        <div>
+          <div class="phase-title" style="color:var(--p6);">Escalamiento y Nuevos Canales</div>
+          <div class="phase-sub">★ Nov – Dic 2026 · Proyección de crecimiento · Horizonte propuesto</div>
+        </div>
+      </div>
+      <div class="phase-gantt" style="background:var(--p6-bg); position:relative;">
+        <div class="bar" style="left:77.10%;width:22.90%;background:var(--p6);opacity:.2;"></div>
+      </div>
+    </div>
+
+    <!-- Análisis de resultados + 2da iteración del sitio -->
+    <div class="task-row" style="background:var(--p6-bg);">
+      <div class="task-label">Análisis de métricas (GQM) + segunda iteración del sitio web</div>
+      <div class="task-meta">
+        <div class="meta-cell">Nov 1</div><div class="meta-cell">Nov 30</div>
+        <div class="meta-cell">30</div>
+        <div class="meta-cell" style="color:#7a3a08;font-weight:700;">★ Cliente / Dev</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:var(--p6-bg);">
+        <div class="bar" style="left:77.10%;width:11.45%;background:var(--p6);">Análisis + 2ª iteración sitio</div>
+      </div>
+    </div>
+
+    <!-- Google Ads básico -->
+    <div class="task-row" style="background:var(--p6-bg);">
+      <div class="task-label">Activación de Google Ads básico — campañas de búsqueda locales en Medellín</div>
+      <div class="task-meta">
+        <div class="meta-cell">Nov 1</div><div class="meta-cell">Dic 31</div>
+        <div class="meta-cell">61</div>
+        <div class="meta-cell" style="color:#7a3a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:var(--p6-bg);">
+        <div class="bar" style="left:77.10%;width:22.90%;background:var(--p6);">Google Ads básico</div>
+      </div>
+    </div>
+
+    <!-- App móvil propia — propuesto -->
+    <div class="task-row" style="background:var(--p6-bg);">
+      <div class="task-label">App móvil branded i-Homotic — inicio de desarrollo (propuesto)</div>
+      <div class="task-meta">
+        <div class="meta-cell">Nov 1</div><div class="meta-cell">→ 2027</div>
+        <div class="meta-cell">—</div>
+        <div class="meta-cell" style="color:#7a3a08;font-weight:700;">★ Cliente / Dev</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:var(--p6-bg);">
+        <div class="bar" style="left:77.10%;width:22.90%;background:var(--p6);opacity:.55;border-right:3px dashed rgba(122,58,8,.4);">App móvil (propuesto)</div>
+      </div>
+    </div>
+
+    <!-- Expansión / internacionalización -->
+    <div class="task-row" style="background:var(--p6-bg);">
+      <div class="task-label">Exploración de expansión nacional y alianza con socio internacional (propuesto)</div>
+      <div class="task-meta">
+        <div class="meta-cell">Dic 1</div><div class="meta-cell">→ 2027</div>
+        <div class="meta-cell">—</div>
+        <div class="meta-cell" style="color:#7a3a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:var(--p6-bg);">
+        <div class="bar" style="left:88.55%;width:11.45%;background:var(--p6);opacity:.45;border-right:3px dashed rgba(122,58,8,.4);">Expansión (propuesto)</div>
+      </div>
+    </div>
+
+    <!-- HITO 6 -->
+    <div class="task-row" style="background:rgba(122,58,8,.04); min-height:30px;">
+      <div class="task-label" style="font-weight:800;font-size:.73rem;color:var(--p6);">⬡ HITO 6 — i-Homotic con presencia digital consolidada, stand activo y nuevos canales en marcha</div>
+      <div class="task-meta">
+        <div class="meta-cell" style="font-weight:700;">Dic 31</div>
+        <div class="meta-cell">—</div><div class="meta-cell">—</div>
+        <div class="meta-cell" style="color:#7a3a08;font-weight:700;">★ Cliente</div>
+      </div>
+      <div class="task-gantt" style="position:relative; background:rgba(122,58,8,.04);">
+        <div class="milestone" style="left:99.0%; background:var(--p6); border-color:var(--p6);"></div>
+        <div class="milestone-label" style="left:90.5%; background:var(--p6);">Hito 6 · i-Homotic escalado</div>
+      </div>
+    </div>
+
+  </div><!-- /roadmap-wrap -->
+
+  <footer>
+    <div class="ft-legend">
+      <div class="ft-li"><div class="ft-dot" style="background:var(--p1)"></div>Fase 1 · Consolidación</div>
+      <div class="ft-li"><div class="ft-dot" style="background:var(--p2)"></div>Fase 2 · Validación</div>
+      <div class="ft-li"><div class="ft-dot" style="background:var(--p3)"></div>Fase 3 · Cierre académico</div>
+      <div class="ft-li"><div class="ft-dot" style="background:var(--p4)"></div>Fase 4 · Producción y lanzamiento</div>
+      <div class="ft-li"><div class="ft-dot" style="background:var(--p5)"></div>Fase 5 · Crecimiento y validación</div>
+      <div class="ft-li"><div class="ft-dot" style="background:var(--p6)"></div>Fase 6 · Escalamiento</div>
+      <div class="ft-li"><div class="ft-dot" style="background:var(--lime); border:2px solid var(--dark)"></div>Hito</div>
+    </div>
+    <span>i-Homotic · Roadmap 2026 · Universidad EAFIT · ★ Fases 4–6 a cargo del cliente</span>
+  </footer>
 
 </body>
 </html>
